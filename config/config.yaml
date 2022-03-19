@@ -1,0 +1,12 @@
+---
+mysql:
+  host: "sh-cynosdbmysql-grp-ethc928g.sql.tencentcdb.com"
+  port: "24995"
+  user: "gmFS_backend"
+  passwd: "Tjc1962370203"
+
+redis:
+  host: "localhost"
+  port: "6379"
+  user: ""
+  passwd: ""

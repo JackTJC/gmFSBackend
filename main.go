@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
 
-func main(){
+	"github.com/JackTJC/gmFS_backend/config"
+	"github.com/JackTJC/gmFS_backend/dal"
+)
+
+func main() {
+	dal.InitDB()
 	fmt.Println("Hello World")
+	config.GetInstance()
 }
