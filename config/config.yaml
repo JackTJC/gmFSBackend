@@ -1,12 +1,18 @@
 ---
-mysql:
-  host: "172.17.0.13"
-  port: "3306"
-  user: "gmFS_backend"
-  passwd: "Tjc1962370203"
+MySQL:
+  Host: "172.17.0.13"
+  Port: "3306"
+  User: "gmFS_backend"
+  Passwd: "Tjc1962370203"
 
-redis:
-  host: "localhost"
-  port: "6379"
-  user: ""
-  passwd: ""
+Redis:
+  Host: "localhost"
+  Port: "6379"
+  User: ""
+  Passwd: ""
+
+COS:
+  BucketURL: "https://gm-fs-1252214784.cos.ap-shanghai.myqcloud.com"
+  ServiceURL: "https://cos.ap-shanghai.myqcloud.com"
+  SecretID: "AKIDPdbIq89tNbXCbjaAVZMs76oFQKxKQFo6"
+  SecretKey: "3pLZXEfpiKgkX3HFwNaYFfnfGZbLo0vZ"

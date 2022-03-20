@@ -12,22 +12,30 @@ var config *Config
 var once sync.Once
 
 type MySQL struct {
-	Host   string `yaml:"host"`
-	Port   string `yaml:"port"`
-	User   string `yaml:"user"`
-	Passwd string `yaml:"passwd"`
+	Host   string `yaml:"Host"`
+	Port   string `yaml:"Port"`
+	User   string `yaml:"User"`
+	Passwd string `yaml:"Passwd"`
 }
 
 type Redis struct {
-	Host   string `yaml:"host"`
-	Port   string `yaml:"port"`
-	User   string `yaml:"user"`
-	Passwd string `yaml:"passwd"`
+	Host   string `yaml:"Host"`
+	Port   string `yaml:"Port"`
+	User   string `yaml:"User"`
+	Passwd string `yaml:"Passwd"`
+}
+
+type COS struct {
+	BaseURL    string `yaml:"BaseURL"`
+	ServiceURL string `yaml:"ServiceURL"`
+	SecretID   string `yaml:"SecretID"`
+	SecretKey  string `yaml:"SecretKey"`
 }
 
 type Config struct {
-	MySQL MySQL `yaml:"mysql"`
-	Reids Redis `yaml:"redis"`
+	MySQL MySQL `yaml:"MySQL"`
+	Reids Redis `yaml:"Redis"`
+	COS   COS   `yaml:"COS"`
 }
 
 func GetInstance() *Config {
