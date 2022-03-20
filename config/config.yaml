@@ -1,7 +1,7 @@
 ---
 mysql:
-  host: "sh-cynosdbmysql-grp-ethc928g.sql.tencentcdb.com"
-  port: "24995"
+  host: "172.17.0.13"
+  port: "3306"
   user: "gmFS_backend"
   passwd: "Tjc1962370203"
 
