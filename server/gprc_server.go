@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/JackTJC/gmFS_backend/logs"
 	"github.com/JackTJC/gmFS_backend/pb_gen"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"golang.org/x/net/http2"
@@ -17,6 +18,7 @@ import (
 func GRPCMain() {
 	lis, err := net.Listen("tcp", ":9000")
 	if err != nil {
+		logs.Sugar.Fatalf("listen error:%v", err)
 		panic(err)
 	}
 	s := grpc.NewServer()
@@ -24,6 +26,7 @@ func GRPCMain() {
 	pb_gen.RegisterGraduateDesignApiServer(s, &server{})
 	httpServer := provideHTTP(":9000", s)
 	if err := httpServer.Serve(lis); err != nil {
+		logs.Sugar.Fatalf("server error:%v", err)
 		panic(err)
 	}
 }
@@ -36,6 +39,7 @@ func provideHTTP(endpoint string, s *grpc.Server) *http.Server {
 	}
 	err := pb_gen.RegisterGraduateDesignApiHandlerFromEndpoint(ctx, gwmux, endpoint, opts)
 	if err != nil {
+		logs.Sugar.Fatalf("RegisterGraduateDesignApiHandlerFromEndpoint error:%v", err)
 		panic(err)
 	}
 	mux := http.NewServeMux()
