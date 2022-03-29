@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 
+	"github.com/JackTJC/gmFS_backend/logs"
 	"github.com/JackTJC/gmFS_backend/pb_gen"
 	"github.com/JackTJC/gmFS_backend/util"
 )
@@ -11,8 +12,12 @@ type server struct {
 	pb_gen.UnimplementedGraduateDesignApiServer
 }
 
-func (s *server) Ping(ctx context.Context, req *pb_gen.PingRequest) (*pb_gen.PingResponse, error) {
+func (s *server) Ping(ctx context.Context, req *pb_gen.PingRequest) (resp *pb_gen.PingResponse, err error) {
 	defer util.RecoverFromPanic()
+	defer func() {
+		logs.Sugar.Infof("request = %+v", req)
+		logs.Sugar.Infof("response = %+v", resp)
+	}()
 	return &pb_gen.PingResponse{Msg: "PONG" + req.GetName()}, nil
 }
 
