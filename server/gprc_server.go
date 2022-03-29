@@ -14,51 +14,15 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-type GRPCServer struct {
-	pb_gen.UnimplementedGraduateDesignApiServer
-}
-
-func (s *GRPCServer) Ping(ctx context.Context, req *pb_gen.PingRequest) (*pb_gen.PingResponse, error) {
-	return &pb_gen.PingResponse{Msg: "PONG"}, nil
-}
-
-func (s *GRPCServer) UserLogin(ctx context.Context, req *pb_gen.UserLoginRequest) (*pb_gen.UserLoginResponse, error) {
-	panic("not implemented") // TODO: Implement
-}
-
-func (s *GRPCServer) CreateDir(ctx context.Context, req *pb_gen.CreateDirRequest) (*pb_gen.CreateDirResponse, error) {
-	panic("not implemented") // TODO: Implement
-}
-
-func (s *GRPCServer) UploadFile(ctx context.Context, req *pb_gen.UploadFileRequest) (*pb_gen.UploadFileReponse, error) {
-	panic("not implemented") // TODO: Implement
-}
-
-func (s *GRPCServer) DownloadFile(ctx context.Context, req *pb_gen.DownloadFileRequest) (*pb_gen.DownloadFileResponse, error) {
-	panic("not implemented") // TODO: Implement
-}
-
-func (s *GRPCServer) GetNode(ctx context.Context, req *pb_gen.GetNodeRequest) (*pb_gen.GetNodeResponse, error) {
-	panic("not implemented") // TODO: Implement
-}
-
-func (s *GRPCServer) SearchFile(ctx context.Context, req *pb_gen.SearchFileRequest) (*pb_gen.SearchFileResponse, error) {
-	panic("not implemented") // TODO: Implement
-}
-
-func (s *GRPCServer) mustEmbedUnimplementedGraduateDesignApiServer() {
-	panic("not implemented") // TODO: Implement
-}
-
 func GRPCMain() {
-	lis, err := net.Listen("tcp", ":8888")
+	lis, err := net.Listen("tcp", ":9000")
 	if err != nil {
 		panic(err)
 	}
 	s := grpc.NewServer()
 	grpc.WithTransportCredentials(insecure.NewCredentials())
-	pb_gen.RegisterGraduateDesignApiServer(s, &GRPCServer{})
-	httpServer := provideHTTP(":8888", s)
+	pb_gen.RegisterGraduateDesignApiServer(s, &server{})
+	httpServer := provideHTTP(":9000", s)
 	if err := httpServer.Serve(lis); err != nil {
 		panic(err)
 	}

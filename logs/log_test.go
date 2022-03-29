@@ -4,5 +4,5 @@ import "testing"
 
 func TestLog(t *testing.T) {
 	InitLog()
-	Infof("a=%v, b=%v, c=%v", 1, 2, 3)
+	Sugar.Debugf("a=%v, b=%v, c=%v", 1, 2, 3)
 }
