@@ -12,6 +12,13 @@ type UploadFileHandler struct {
 	Resp *pb_gen.UploadFileReponse
 }
 
+func NewUploadFileHandler(ctx context.Context, req *pb_gen.UploadFileRequest) *UploadFileHandler {
+	return &UploadFileHandler{
+		ctx: ctx,
+		Req: req,
+	}
+}
+
 func (h *UploadFileHandler) Run() {
 
 }

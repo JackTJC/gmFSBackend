@@ -13,6 +13,13 @@ type CreateDirHandler struct {
 	Resp *pb_gen.CreateDirResponse
 }
 
+func NewCreateDirHandler(ctx context.Context, req *pb_gen.CreateDirRequest) *CreateDirHandler {
+	return &CreateDirHandler{
+		ctx: ctx,
+		Req: req,
+	}
+}
+
 func (h *CreateDirHandler) Run() {
 
 }

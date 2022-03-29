@@ -12,6 +12,13 @@ type GetNodeHandler struct {
 	Resp *pb_gen.GetNodeResponse
 }
 
+func NewGetNodeHandler(ctx context.Context, req *pb_gen.GetNodeRequest) *GetNodeHandler {
+	return &GetNodeHandler{
+		ctx: ctx,
+		Req: req,
+	}
+}
+
 func (h *GetNodeHandler) Run() {
 
 }

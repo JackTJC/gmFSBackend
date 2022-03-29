@@ -12,6 +12,13 @@ type SearchFileHandler struct {
 	Resp *pb_gen.SearchFileResponse
 }
 
+func NewSearchFileHandler(ctx context.Context, req *pb_gen.SearchFileRequest) *SearchFileHandler {
+	return &SearchFileHandler{
+		ctx: ctx,
+		Req: req,
+	}
+}
+
 func (h *SearchFileHandler) Run() {
 
 }
