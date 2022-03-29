@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.34
 	go.uber.org/zap v1.21.0
 	google.golang.org/genproto v0.0.0-20220324131243-acbaeb5b85eb

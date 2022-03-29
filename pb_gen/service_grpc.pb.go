@@ -18,6 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GraduateDesignApiClient interface {
+	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
 	UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error)
 	CreateDir(ctx context.Context, in *CreateDirRequest, opts ...grpc.CallOption) (*CreateDirResponse, error)
 	UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileReponse, error)
@@ -32,6 +33,15 @@ type graduateDesignApiClient struct {
 
 func NewGraduateDesignApiClient(cc grpc.ClientConnInterface) GraduateDesignApiClient {
 	return &graduateDesignApiClient{cc}
+}
+
+func (c *graduateDesignApiClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
+	out := new(PingResponse)
+	err := c.cc.Invoke(ctx, "/graduate_design.GraduateDesignApi/Ping", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *graduateDesignApiClient) UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error) {
@@ -92,6 +102,7 @@ func (c *graduateDesignApiClient) SearchFile(ctx context.Context, in *SearchFile
 // All implementations must embed UnimplementedGraduateDesignApiServer
 // for forward compatibility
 type GraduateDesignApiServer interface {
+	Ping(context.Context, *PingRequest) (*PingResponse, error)
 	UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error)
 	CreateDir(context.Context, *CreateDirRequest) (*CreateDirResponse, error)
 	UploadFile(context.Context, *UploadFileRequest) (*UploadFileReponse, error)
@@ -105,6 +116,9 @@ type GraduateDesignApiServer interface {
 type UnimplementedGraduateDesignApiServer struct {
 }
 
+func (UnimplementedGraduateDesignApiServer) Ping(context.Context, *PingRequest) (*PingResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
+}
 func (UnimplementedGraduateDesignApiServer) UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
 }
@@ -134,6 +148,24 @@ type UnsafeGraduateDesignApiServer interface {
 
 func RegisterGraduateDesignApiServer(s grpc.ServiceRegistrar, srv GraduateDesignApiServer) {
 	s.RegisterService(&GraduateDesignApi_ServiceDesc, srv)
+}
+
+func _GraduateDesignApi_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GraduateDesignApiServer).Ping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/graduate_design.GraduateDesignApi/Ping",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GraduateDesignApiServer).Ping(ctx, req.(*PingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _GraduateDesignApi_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -251,6 +283,10 @@ var GraduateDesignApi_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "graduate_design.GraduateDesignApi",
 	HandlerType: (*GraduateDesignApiServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Ping",
+			Handler:    _GraduateDesignApi_Ping_Handler,
+		},
 		{
 			MethodName: "UserLogin",
 			Handler:    _GraduateDesignApi_UserLogin_Handler,
