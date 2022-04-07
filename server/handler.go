@@ -13,6 +13,18 @@ type server struct {
 	pb_gen.UnimplementedGraduateDesignApiServer
 }
 
+func (s *server) UserRegister(ctx context.Context, req *pb_gen.UserRegisterRequest) (resp *pb_gen.UserRegisterResponse, err error) {
+	defer util.RecoverFromPanic()
+	defer func() {
+		logs.Sugar.Infof("request = %+v", req)
+		logs.Sugar.Infof("response = %+v", resp)
+	}()
+	h := method.NewUserRegisterHandler(ctx, req)
+	h.Run()
+	return h.Resp, nil
+
+}
+
 func (s *server) Ping(ctx context.Context, req *pb_gen.PingRequest) (resp *pb_gen.PingResponse, err error) {
 	defer util.RecoverFromPanic()
 	defer func() {

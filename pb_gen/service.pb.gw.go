@@ -65,18 +65,49 @@ func local_request_GraduateDesignApi_Ping_0(ctx context.Context, marshaler runti
 
 }
 
-var (
-	filter_GraduateDesignApi_UserLogin_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+func request_GraduateDesignApi_UserRegister_0(ctx context.Context, marshaler runtime.Marshaler, client GraduateDesignApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq UserRegisterRequest
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := client.UserRegister(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_GraduateDesignApi_UserRegister_0(ctx context.Context, marshaler runtime.Marshaler, server GraduateDesignApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq UserRegisterRequest
+	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := server.UserRegister(ctx, &protoReq)
+	return msg, metadata, err
+
+}
 
 func request_GraduateDesignApi_UserLogin_0(ctx context.Context, marshaler runtime.Marshaler, client GraduateDesignApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq UserLoginRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_UserLogin_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -89,10 +120,11 @@ func local_request_GraduateDesignApi_UserLogin_0(ctx context.Context, marshaler 
 	var protoReq UserLoginRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_UserLogin_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -101,18 +133,15 @@ func local_request_GraduateDesignApi_UserLogin_0(ctx context.Context, marshaler 
 
 }
 
-var (
-	filter_GraduateDesignApi_CreateDir_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_GraduateDesignApi_CreateDir_0(ctx context.Context, marshaler runtime.Marshaler, client GraduateDesignApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CreateDirRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_CreateDir_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -125,10 +154,11 @@ func local_request_GraduateDesignApi_CreateDir_0(ctx context.Context, marshaler 
 	var protoReq CreateDirRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_CreateDir_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -137,18 +167,15 @@ func local_request_GraduateDesignApi_CreateDir_0(ctx context.Context, marshaler 
 
 }
 
-var (
-	filter_GraduateDesignApi_UploadFile_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_GraduateDesignApi_UploadFile_0(ctx context.Context, marshaler runtime.Marshaler, client GraduateDesignApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq UploadFileRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_UploadFile_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -161,10 +188,11 @@ func local_request_GraduateDesignApi_UploadFile_0(ctx context.Context, marshaler
 	var protoReq UploadFileRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_UploadFile_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -173,18 +201,15 @@ func local_request_GraduateDesignApi_UploadFile_0(ctx context.Context, marshaler
 
 }
 
-var (
-	filter_GraduateDesignApi_DownloadFile_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_GraduateDesignApi_DownloadFile_0(ctx context.Context, marshaler runtime.Marshaler, client GraduateDesignApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq DownloadFileRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_DownloadFile_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -197,10 +222,11 @@ func local_request_GraduateDesignApi_DownloadFile_0(ctx context.Context, marshal
 	var protoReq DownloadFileRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_DownloadFile_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -209,18 +235,15 @@ func local_request_GraduateDesignApi_DownloadFile_0(ctx context.Context, marshal
 
 }
 
-var (
-	filter_GraduateDesignApi_GetNode_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_GraduateDesignApi_GetNode_0(ctx context.Context, marshaler runtime.Marshaler, client GraduateDesignApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetNodeRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_GetNode_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -233,10 +256,11 @@ func local_request_GraduateDesignApi_GetNode_0(ctx context.Context, marshaler ru
 	var protoReq GetNodeRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_GetNode_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -245,18 +269,15 @@ func local_request_GraduateDesignApi_GetNode_0(ctx context.Context, marshaler ru
 
 }
 
-var (
-	filter_GraduateDesignApi_SearchFile_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_GraduateDesignApi_SearchFile_0(ctx context.Context, marshaler runtime.Marshaler, client GraduateDesignApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq SearchFileRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_SearchFile_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -269,10 +290,11 @@ func local_request_GraduateDesignApi_SearchFile_0(ctx context.Context, marshaler
 	var protoReq SearchFileRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GraduateDesignApi_SearchFile_0); err != nil {
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -294,7 +316,7 @@ func RegisterGraduateDesignApiHandlerServer(ctx context.Context, mux *runtime.Se
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/Ping", runtime.WithHTTPPathPattern("/ping"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.GraduateDesignApi/Ping", runtime.WithHTTPPathPattern("/ping"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -311,6 +333,30 @@ func RegisterGraduateDesignApiHandlerServer(ctx context.Context, mux *runtime.Se
 
 	})
 
+	mux.Handle("POST", pattern_GraduateDesignApi_UserRegister_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.GraduateDesignApi/UserRegister", runtime.WithHTTPPathPattern("/user/register"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_GraduateDesignApi_UserRegister_0(ctx, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_GraduateDesignApi_UserRegister_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	mux.Handle("POST", pattern_GraduateDesignApi_UserLogin_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -318,7 +364,7 @@ func RegisterGraduateDesignApiHandlerServer(ctx context.Context, mux *runtime.Se
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/UserLogin", runtime.WithHTTPPathPattern("/user/login"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.GraduateDesignApi/UserLogin", runtime.WithHTTPPathPattern("/user/login"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -342,7 +388,7 @@ func RegisterGraduateDesignApiHandlerServer(ctx context.Context, mux *runtime.Se
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/CreateDir", runtime.WithHTTPPathPattern("/dir/create"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.GraduateDesignApi/CreateDir", runtime.WithHTTPPathPattern("/dir/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -366,7 +412,7 @@ func RegisterGraduateDesignApiHandlerServer(ctx context.Context, mux *runtime.Se
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/UploadFile", runtime.WithHTTPPathPattern("/file/upload"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.GraduateDesignApi/UploadFile", runtime.WithHTTPPathPattern("/file/upload"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -390,7 +436,7 @@ func RegisterGraduateDesignApiHandlerServer(ctx context.Context, mux *runtime.Se
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/DownloadFile", runtime.WithHTTPPathPattern("/file/download"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.GraduateDesignApi/DownloadFile", runtime.WithHTTPPathPattern("/file/download"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -414,7 +460,7 @@ func RegisterGraduateDesignApiHandlerServer(ctx context.Context, mux *runtime.Se
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/GetNode", runtime.WithHTTPPathPattern("/node/get"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.GraduateDesignApi/GetNode", runtime.WithHTTPPathPattern("/node/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -438,7 +484,7 @@ func RegisterGraduateDesignApiHandlerServer(ctx context.Context, mux *runtime.Se
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/SearchFile", runtime.WithHTTPPathPattern("/file/search"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.GraduateDesignApi/SearchFile", runtime.WithHTTPPathPattern("/file/search"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -501,7 +547,7 @@ func RegisterGraduateDesignApiHandlerClient(ctx context.Context, mux *runtime.Se
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/Ping", runtime.WithHTTPPathPattern("/ping"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/.GraduateDesignApi/Ping", runtime.WithHTTPPathPattern("/ping"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -517,12 +563,33 @@ func RegisterGraduateDesignApiHandlerClient(ctx context.Context, mux *runtime.Se
 
 	})
 
+	mux.Handle("POST", pattern_GraduateDesignApi_UserRegister_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/.GraduateDesignApi/UserRegister", runtime.WithHTTPPathPattern("/user/register"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_GraduateDesignApi_UserRegister_0(ctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_GraduateDesignApi_UserRegister_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	mux.Handle("POST", pattern_GraduateDesignApi_UserLogin_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/UserLogin", runtime.WithHTTPPathPattern("/user/login"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/.GraduateDesignApi/UserLogin", runtime.WithHTTPPathPattern("/user/login"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -543,7 +610,7 @@ func RegisterGraduateDesignApiHandlerClient(ctx context.Context, mux *runtime.Se
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/CreateDir", runtime.WithHTTPPathPattern("/dir/create"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/.GraduateDesignApi/CreateDir", runtime.WithHTTPPathPattern("/dir/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -564,7 +631,7 @@ func RegisterGraduateDesignApiHandlerClient(ctx context.Context, mux *runtime.Se
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/UploadFile", runtime.WithHTTPPathPattern("/file/upload"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/.GraduateDesignApi/UploadFile", runtime.WithHTTPPathPattern("/file/upload"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -585,7 +652,7 @@ func RegisterGraduateDesignApiHandlerClient(ctx context.Context, mux *runtime.Se
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/DownloadFile", runtime.WithHTTPPathPattern("/file/download"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/.GraduateDesignApi/DownloadFile", runtime.WithHTTPPathPattern("/file/download"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -606,7 +673,7 @@ func RegisterGraduateDesignApiHandlerClient(ctx context.Context, mux *runtime.Se
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/GetNode", runtime.WithHTTPPathPattern("/node/get"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/.GraduateDesignApi/GetNode", runtime.WithHTTPPathPattern("/node/get"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -627,7 +694,7 @@ func RegisterGraduateDesignApiHandlerClient(ctx context.Context, mux *runtime.Se
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/graduate_design.GraduateDesignApi/SearchFile", runtime.WithHTTPPathPattern("/file/search"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/.GraduateDesignApi/SearchFile", runtime.WithHTTPPathPattern("/file/search"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -649,6 +716,8 @@ func RegisterGraduateDesignApiHandlerClient(ctx context.Context, mux *runtime.Se
 var (
 	pattern_GraduateDesignApi_Ping_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"ping"}, ""))
 
+	pattern_GraduateDesignApi_UserRegister_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"user", "register"}, ""))
+
 	pattern_GraduateDesignApi_UserLogin_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"user", "login"}, ""))
 
 	pattern_GraduateDesignApi_CreateDir_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"dir", "create"}, ""))
@@ -664,6 +733,8 @@ var (
 
 var (
 	forward_GraduateDesignApi_Ping_0 = runtime.ForwardResponseMessage
+
+	forward_GraduateDesignApi_UserRegister_0 = runtime.ForwardResponseMessage
 
 	forward_GraduateDesignApi_UserLogin_0 = runtime.ForwardResponseMessage
 

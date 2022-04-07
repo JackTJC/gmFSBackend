@@ -7,7 +7,6 @@ import (
 )
 
 func main() {
-
 	logs.InitLog()
 	dal.Init()
 	server.GRPCMain()

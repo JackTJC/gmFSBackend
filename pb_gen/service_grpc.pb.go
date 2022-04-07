@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GraduateDesignApiClient interface {
 	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error)
+	UserRegister(ctx context.Context, in *UserRegisterRequest, opts ...grpc.CallOption) (*UserRegisterResponse, error)
 	UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error)
 	CreateDir(ctx context.Context, in *CreateDirRequest, opts ...grpc.CallOption) (*CreateDirResponse, error)
 	UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileReponse, error)
@@ -37,7 +38,16 @@ func NewGraduateDesignApiClient(cc grpc.ClientConnInterface) GraduateDesignApiCl
 
 func (c *graduateDesignApiClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingResponse, error) {
 	out := new(PingResponse)
-	err := c.cc.Invoke(ctx, "/graduate_design.GraduateDesignApi/Ping", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/GraduateDesignApi/Ping", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *graduateDesignApiClient) UserRegister(ctx context.Context, in *UserRegisterRequest, opts ...grpc.CallOption) (*UserRegisterResponse, error) {
+	out := new(UserRegisterResponse)
+	err := c.cc.Invoke(ctx, "/GraduateDesignApi/UserRegister", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +56,7 @@ func (c *graduateDesignApiClient) Ping(ctx context.Context, in *PingRequest, opt
 
 func (c *graduateDesignApiClient) UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error) {
 	out := new(UserLoginResponse)
-	err := c.cc.Invoke(ctx, "/graduate_design.GraduateDesignApi/UserLogin", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/GraduateDesignApi/UserLogin", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +65,7 @@ func (c *graduateDesignApiClient) UserLogin(ctx context.Context, in *UserLoginRe
 
 func (c *graduateDesignApiClient) CreateDir(ctx context.Context, in *CreateDirRequest, opts ...grpc.CallOption) (*CreateDirResponse, error) {
 	out := new(CreateDirResponse)
-	err := c.cc.Invoke(ctx, "/graduate_design.GraduateDesignApi/CreateDir", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/GraduateDesignApi/CreateDir", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +74,7 @@ func (c *graduateDesignApiClient) CreateDir(ctx context.Context, in *CreateDirRe
 
 func (c *graduateDesignApiClient) UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileReponse, error) {
 	out := new(UploadFileReponse)
-	err := c.cc.Invoke(ctx, "/graduate_design.GraduateDesignApi/UploadFile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/GraduateDesignApi/UploadFile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +83,7 @@ func (c *graduateDesignApiClient) UploadFile(ctx context.Context, in *UploadFile
 
 func (c *graduateDesignApiClient) DownloadFile(ctx context.Context, in *DownloadFileRequest, opts ...grpc.CallOption) (*DownloadFileResponse, error) {
 	out := new(DownloadFileResponse)
-	err := c.cc.Invoke(ctx, "/graduate_design.GraduateDesignApi/DownloadFile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/GraduateDesignApi/DownloadFile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +92,7 @@ func (c *graduateDesignApiClient) DownloadFile(ctx context.Context, in *Download
 
 func (c *graduateDesignApiClient) GetNode(ctx context.Context, in *GetNodeRequest, opts ...grpc.CallOption) (*GetNodeResponse, error) {
 	out := new(GetNodeResponse)
-	err := c.cc.Invoke(ctx, "/graduate_design.GraduateDesignApi/GetNode", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/GraduateDesignApi/GetNode", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +101,7 @@ func (c *graduateDesignApiClient) GetNode(ctx context.Context, in *GetNodeReques
 
 func (c *graduateDesignApiClient) SearchFile(ctx context.Context, in *SearchFileRequest, opts ...grpc.CallOption) (*SearchFileResponse, error) {
 	out := new(SearchFileResponse)
-	err := c.cc.Invoke(ctx, "/graduate_design.GraduateDesignApi/SearchFile", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/GraduateDesignApi/SearchFile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -103,6 +113,7 @@ func (c *graduateDesignApiClient) SearchFile(ctx context.Context, in *SearchFile
 // for forward compatibility
 type GraduateDesignApiServer interface {
 	Ping(context.Context, *PingRequest) (*PingResponse, error)
+	UserRegister(context.Context, *UserRegisterRequest) (*UserRegisterResponse, error)
 	UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error)
 	CreateDir(context.Context, *CreateDirRequest) (*CreateDirResponse, error)
 	UploadFile(context.Context, *UploadFileRequest) (*UploadFileReponse, error)
@@ -118,6 +129,9 @@ type UnimplementedGraduateDesignApiServer struct {
 
 func (UnimplementedGraduateDesignApiServer) Ping(context.Context, *PingRequest) (*PingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
+}
+func (UnimplementedGraduateDesignApiServer) UserRegister(context.Context, *UserRegisterRequest) (*UserRegisterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserRegister not implemented")
 }
 func (UnimplementedGraduateDesignApiServer) UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
@@ -160,10 +174,28 @@ func _GraduateDesignApi_Ping_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/graduate_design.GraduateDesignApi/Ping",
+		FullMethod: "/GraduateDesignApi/Ping",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GraduateDesignApiServer).Ping(ctx, req.(*PingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GraduateDesignApi_UserRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRegisterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GraduateDesignApiServer).UserRegister(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/GraduateDesignApi/UserRegister",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GraduateDesignApiServer).UserRegister(ctx, req.(*UserRegisterRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -178,7 +210,7 @@ func _GraduateDesignApi_UserLogin_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/graduate_design.GraduateDesignApi/UserLogin",
+		FullMethod: "/GraduateDesignApi/UserLogin",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GraduateDesignApiServer).UserLogin(ctx, req.(*UserLoginRequest))
@@ -196,7 +228,7 @@ func _GraduateDesignApi_CreateDir_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/graduate_design.GraduateDesignApi/CreateDir",
+		FullMethod: "/GraduateDesignApi/CreateDir",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GraduateDesignApiServer).CreateDir(ctx, req.(*CreateDirRequest))
@@ -214,7 +246,7 @@ func _GraduateDesignApi_UploadFile_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/graduate_design.GraduateDesignApi/UploadFile",
+		FullMethod: "/GraduateDesignApi/UploadFile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GraduateDesignApiServer).UploadFile(ctx, req.(*UploadFileRequest))
@@ -232,7 +264,7 @@ func _GraduateDesignApi_DownloadFile_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/graduate_design.GraduateDesignApi/DownloadFile",
+		FullMethod: "/GraduateDesignApi/DownloadFile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GraduateDesignApiServer).DownloadFile(ctx, req.(*DownloadFileRequest))
@@ -250,7 +282,7 @@ func _GraduateDesignApi_GetNode_Handler(srv interface{}, ctx context.Context, de
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/graduate_design.GraduateDesignApi/GetNode",
+		FullMethod: "/GraduateDesignApi/GetNode",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GraduateDesignApiServer).GetNode(ctx, req.(*GetNodeRequest))
@@ -268,7 +300,7 @@ func _GraduateDesignApi_SearchFile_Handler(srv interface{}, ctx context.Context,
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/graduate_design.GraduateDesignApi/SearchFile",
+		FullMethod: "/GraduateDesignApi/SearchFile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GraduateDesignApiServer).SearchFile(ctx, req.(*SearchFileRequest))
@@ -280,12 +312,16 @@ func _GraduateDesignApi_SearchFile_Handler(srv interface{}, ctx context.Context,
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var GraduateDesignApi_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "graduate_design.GraduateDesignApi",
+	ServiceName: "GraduateDesignApi",
 	HandlerType: (*GraduateDesignApiServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Ping",
 			Handler:    _GraduateDesignApi_Ping_Handler,
+		},
+		{
+			MethodName: "UserRegister",
+			Handler:    _GraduateDesignApi_UserRegister_Handler,
 		},
 		{
 			MethodName: "UserLogin",

@@ -5,9 +5,11 @@ go 1.18
 require (
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/golang/protobuf v1.5.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.34
 	go.uber.org/zap v1.21.0
+	golang.org/x/net v0.0.0-20220225172249-27dd8689420f
 	google.golang.org/genproto v0.0.0-20220324131243-acbaeb5b85eb
 	google.golang.org/grpc v1.45.0
 	google.golang.org/protobuf v1.28.0
@@ -24,7 +26,6 @@ require (
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
-	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.4 // indirect
@@ -41,7 +42,6 @@ require (
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
-	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
 	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
 	golang.org/x/text v0.3.7 // indirect
 )
