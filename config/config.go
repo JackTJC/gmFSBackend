@@ -2,6 +2,8 @@ package config
 
 import (
 	"io/ioutil"
+	"path"
+	"runtime"
 	"sync"
 
 	"gopkg.in/validator.v2"
@@ -46,7 +48,12 @@ func GetInstance() *Config {
 func initConf() {
 	content, err := ioutil.ReadFile("./config/config.yaml")
 	if err != nil {
-		panic(err)
+		_, b, _, _ := runtime.Caller(0)
+		d, _ := path.Split(b)
+		content, err = ioutil.ReadFile(d + "config.yaml")
+		if err != nil {
+			panic(err)
+		}
 	}
 	config = &Config{}
 	err = yaml.Unmarshal(content, config)
