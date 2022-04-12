@@ -19,6 +19,7 @@ func NewDownloadFileHandler(ctx context.Context, req *pb_gen.DownloadFileRequest
 	}
 }
 
-func (h *DownloadFileHandler) Run() {
-
+func (h *DownloadFileHandler) Run() (resp *pb_gen.DownloadFileResponse) {
+	resp = &pb_gen.DownloadFileResponse{}
+	return
 }

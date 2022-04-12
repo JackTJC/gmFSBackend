@@ -20,6 +20,7 @@ func NewCreateDirHandler(ctx context.Context, req *pb_gen.CreateDirRequest) *Cre
 	}
 }
 
-func (h *CreateDirHandler) Run() {
-
+func (h *CreateDirHandler) Run() (resp *pb_gen.CreateDirResponse) {
+	resp = &pb_gen.CreateDirResponse{}
+	return
 }

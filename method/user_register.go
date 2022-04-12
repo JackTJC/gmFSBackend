@@ -7,24 +7,23 @@ import (
 	"github.com/JackTJC/gmFS_backend/dal/db"
 	"github.com/JackTJC/gmFS_backend/model"
 	"github.com/JackTJC/gmFS_backend/pb_gen"
+	"github.com/JackTJC/gmFS_backend/util"
 )
 
 type UserRegisterHandler struct {
 	ctx context.Context
-
-	Req  *pb_gen.UserRegisterRequest
-	Resp *pb_gen.UserRegisterResponse
+	Req *pb_gen.UserRegisterRequest
 }
 
 func NewUserRegisterHandler(ctx context.Context, req *pb_gen.UserRegisterRequest) *UserRegisterHandler {
 	return &UserRegisterHandler{
-		ctx:  ctx,
-		Req:  req,
-		Resp: &pb_gen.UserRegisterResponse{},
+		ctx: ctx,
+		Req: req,
 	}
 }
 
-func (h *UserRegisterHandler) Run() {
+func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
+	resp = &pb_gen.UserRegisterResponse{}
 	if err := h.checkParams(); err != nil {
 		return
 	}
@@ -34,19 +33,15 @@ func (h *UserRegisterHandler) Run() {
 	}
 	err := db.User.CreateUser(user)
 	if err != nil {
-		h.Resp.BaseResp.StatusCode = -1
-		h.Resp.BaseResp.Message = "db失败"
+		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
-	h.Resp.BaseResp = &pb_gen.BaseResp{
-		StatusCode: 0,
-		Message:    "success",
-	}
+	// TODO 为用户创建根文件夹
+	return
 }
 
 func (h *UserRegisterHandler) checkParams() error {
 	if h.Req.GetUserName() == "" || h.Req.GetPassword() == "" {
-		h.Resp.BaseResp.Message = "参数非法"
 		return errors.New("参数非法")
 	}
 	return nil

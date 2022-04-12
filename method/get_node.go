@@ -19,6 +19,7 @@ func NewGetNodeHandler(ctx context.Context, req *pb_gen.GetNodeRequest) *GetNode
 	}
 }
 
-func (h *GetNodeHandler) Run() {
-
+func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
+	resp = &pb_gen.GetNodeResponse{}
+	return resp
 }

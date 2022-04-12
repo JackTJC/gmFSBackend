@@ -20,9 +20,7 @@ func (s *server) UserRegister(ctx context.Context, req *pb_gen.UserRegisterReque
 		logs.Sugar.Infof("response = %+v", resp)
 	}()
 	h := method.NewUserRegisterHandler(ctx, req)
-	h.Run()
-	return h.Resp, nil
-
+	return h.Run(), nil
 }
 
 func (s *server) Ping(ctx context.Context, req *pb_gen.PingRequest) (resp *pb_gen.PingResponse, err error) {
@@ -41,8 +39,7 @@ func (s *server) UserLogin(ctx context.Context, req *pb_gen.UserLoginRequest) (r
 		logs.Sugar.Infof("response = %+v", resp)
 	}()
 	h := method.NewUserLoginHandler(ctx, req)
-	h.Run()
-	return h.Resp, nil
+	return h.Run(), nil
 }
 
 func (s *server) CreateDir(ctx context.Context, req *pb_gen.CreateDirRequest) (resp *pb_gen.CreateDirResponse, err error) {
@@ -52,8 +49,7 @@ func (s *server) CreateDir(ctx context.Context, req *pb_gen.CreateDirRequest) (r
 		logs.Sugar.Infof("response = %+v", resp)
 	}()
 	h := method.NewCreateDirHandler(ctx, req)
-	h.Run()
-	return h.Resp, nil
+	return h.Run(), nil
 }
 
 func (s *server) UploadFile(ctx context.Context, req *pb_gen.UploadFileRequest) (resp *pb_gen.UploadFileReponse, err error) {
@@ -63,8 +59,7 @@ func (s *server) UploadFile(ctx context.Context, req *pb_gen.UploadFileRequest) 
 		logs.Sugar.Infof("response = %+v", resp)
 	}()
 	h := method.NewUploadFileHandler(ctx, req)
-	h.Run()
-	return h.Resp, nil
+	return h.Run(), nil
 }
 
 func (s *server) DownloadFile(ctx context.Context, req *pb_gen.DownloadFileRequest) (resp *pb_gen.DownloadFileResponse, err error) {
@@ -74,8 +69,7 @@ func (s *server) DownloadFile(ctx context.Context, req *pb_gen.DownloadFileReque
 		logs.Sugar.Infof("response = %+v", resp)
 	}()
 	h := method.NewDownloadFileHandler(ctx, req)
-	h.Run()
-	return h.Resp, nil
+	return h.Run(), nil
 }
 
 func (s *server) GetNode(ctx context.Context, req *pb_gen.GetNodeRequest) (resp *pb_gen.GetNodeResponse, err error) {
@@ -85,8 +79,7 @@ func (s *server) GetNode(ctx context.Context, req *pb_gen.GetNodeRequest) (resp 
 		logs.Sugar.Infof("response = %+v", resp)
 	}()
 	h := method.NewGetNodeHandler(ctx, req)
-	h.Run()
-	return h.Resp, nil
+	return h.Run(), nil
 }
 
 func (s *server) SearchFile(ctx context.Context, req *pb_gen.SearchFileRequest) (resp *pb_gen.SearchFileResponse, err error) {
@@ -96,8 +89,7 @@ func (s *server) SearchFile(ctx context.Context, req *pb_gen.SearchFileRequest) 
 		logs.Sugar.Infof("response = %+v", resp)
 	}()
 	h := method.NewSearchFileHandler(ctx, req)
-	h.Run()
-	return h.Resp, nil
+	return h.Run(), nil
 }
 
 func (s *server) mustEmbedUnimplementedGraduateDesignApiServer() {

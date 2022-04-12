@@ -11,43 +11,42 @@ import (
 )
 
 type UserLoginHandler struct {
-	ctx  context.Context
-	Req  *pb_gen.UserLoginRequest
-	Resp *pb_gen.UserLoginResponse
+	ctx context.Context
+	Req *pb_gen.UserLoginRequest
 }
 
 func NewUserLoginHandler(ctx context.Context, req *pb_gen.UserLoginRequest) *UserLoginHandler {
 	return &UserLoginHandler{
-		ctx:  ctx,
-		Req:  req,
-		Resp: &pb_gen.UserLoginResponse{},
+		ctx: ctx,
+		Req: req,
 	}
 }
 
-func (h *UserLoginHandler) Run() {
+func (h *UserLoginHandler) Run() (resp *pb_gen.UserLoginResponse) {
+	resp = &pb_gen.UserLoginResponse{}
 	if err := h.checkParams(); err != nil {
 		logs.Sugar.Errorf("checkParams error:%v", err)
-		h.Resp.BaseResp = &pb_gen.BaseResp{
-			StatusCode: pb_gen.StatusCode_CommonErr,
-		}
+		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
 	user, err := db.User.GetUserByName(h.Req.GetUserName())
 	if err != nil {
 		logs.Sugar.Errorf("GetUserByName error:%v", err)
 		if err == db.ErrUserNotFound {
-			h.Resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_UserNotFound)
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_UserNotFound)
 			return
 		}
-		h.Resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
 	if user.Password != h.Req.GetPassword() {
 		logs.Sugar.Errorf("auth error, wrong passwd")
-		h.Resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_WrongPasswd)
+		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_WrongPasswd)
 		return
 	}
-	h.Resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
+	// TODO 下发用户的token
+	resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
+	return
 }
 
 func (h *UserLoginHandler) checkParams() error {

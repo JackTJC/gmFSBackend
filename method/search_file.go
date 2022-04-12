@@ -19,6 +19,7 @@ func NewSearchFileHandler(ctx context.Context, req *pb_gen.SearchFileRequest) *S
 	}
 }
 
-func (h *SearchFileHandler) Run() {
-
+func (h *SearchFileHandler) Run() (resp *pb_gen.SearchFileResponse) {
+	resp = &pb_gen.SearchFileResponse{}
+	return resp
 }

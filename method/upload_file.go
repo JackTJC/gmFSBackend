@@ -12,23 +12,22 @@ import (
 )
 
 type UploadFileHandler struct {
-	ctx  context.Context
-	Req  *pb_gen.UploadFileRequest
-	Resp *pb_gen.UploadFileReponse
+	ctx context.Context
+	Req *pb_gen.UploadFileRequest
 }
 
 func NewUploadFileHandler(ctx context.Context, req *pb_gen.UploadFileRequest) *UploadFileHandler {
 	return &UploadFileHandler{
-		ctx:  ctx,
-		Req:  req,
-		Resp: &pb_gen.UploadFileReponse{},
+		ctx: ctx,
+		Req: req,
 	}
 }
 
-func (h *UploadFileHandler) Run() {
+func (h *UploadFileHandler) Run() (resp *pb_gen.UploadFileReponse) {
+	resp = &pb_gen.UploadFileReponse{}
 	if err := h.checkParams(); err != nil {
 		logs.Sugar.Errorf("checkParams error:%v", err)
-		h.Resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
 	node := &model.Node{
@@ -38,9 +37,10 @@ func (h *UploadFileHandler) Run() {
 	}
 	if err := db.Node.Create(node); err != nil {
 		logs.Sugar.Errorf("CreateFile error:%v", err)
-		h.Resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
+	return
 }
 
 func (h *UploadFileHandler) checkParams() error {
