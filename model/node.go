@@ -5,13 +5,13 @@ import (
 	"time"
 )
 
-// 文件节点表
+// 节点表
 type Node struct {
 	NodeID     uint64    `gorm:"column:node_id;primary_key;AUTO_INCREMENT"`             // 节点id
-	NodeType   int       `gorm:"column:node_type;NOT NULL"`                             // 节点类型
-	NodeName   string    `gorm:"column:node_name;NOT NULL"`                             // 节点名称
-	ObjKey     string    `gorm:"column:obj_key;NOT NULL"`                               // 对象在cos中的key
+	NodeType   uint      `gorm:"column:node_type;NOT NULL"`                             // 节点类型
+	Name       string    `gorm:"column:name;NOT NULL"`                                  // 文件名称
 	Content    string    `gorm:"column:content;NOT NULL"`                               // 文件内容,最大64k
+	CosKey     string    `gorm:"column:cos_key;NOT NULL"`                               // 文件在cos中的key
 	CreateTime time.Time `gorm:"column:create_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 创建时间
 	UpdateTime time.Time `gorm:"column:update_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 更新时间
 }
@@ -19,3 +19,4 @@ type Node struct {
 func (m *Node) TableName() string {
 	return "node"
 }
+

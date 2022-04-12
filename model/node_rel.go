@@ -7,13 +7,14 @@ import (
 
 // 文件节点引用表
 type NodeRel struct {
-	ID           uint64    `gorm:"column:id;primary_key;AUTO_INCREMENT"`                  // 主键id
-	ParentNodeID uint64    `gorm:"column:parent_node_id;AUTO_INCREMENT;NOT NULL"`         // 父节点id
-	ChildNodeID  uint64    `gorm:"column:child_node_id;AUTO_INCREMENT;NOT NULL"`          // 子节点id
-	CreateTime   time.Time `gorm:"column:create_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 创建时间
-	UpdateTime   time.Time `gorm:"column:update_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 更新时间
+	ID         uint64    `gorm:"column:id;primary_key;AUTO_INCREMENT"`                  // 主键id
+	ParentID   uint64    `gorm:"column:parent_id;AUTO_INCREMENT;NOT NULL"`              // 父节点id
+	ChildID    uint64    `gorm:"column:child_id;AUTO_INCREMENT;NOT NULL"`               // 子节点id
+	CreateTime time.Time `gorm:"column:create_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 创建时间
+	UpdateTime time.Time `gorm:"column:update_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 更新时间
 }
 
 func (m *NodeRel) TableName() string {
 	return "node_rel"
 }
+
