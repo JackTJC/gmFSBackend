@@ -31,11 +31,12 @@ func (h *UploadFileHandler) Run() {
 		h.Resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
-	file := &model.File{
-		FileName:    h.Req.GetFileName(),
-		FileContent: string(h.Req.GetContent()),
+	node := &model.Node{
+		NodeType: uint(pb_gen.NodeType_File),
+		Name:     h.Req.GetFileName(),
+		Content:  string(h.Req.GetContent()),
 	}
-	if err := db.File.CreateFile(file); err != nil {
+	if err := db.Node.Create(node); err != nil {
 		logs.Sugar.Errorf("CreateFile error:%v", err)
 		h.Resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return

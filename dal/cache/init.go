@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/JackTJC/gmFS_backend/config"
+	"github.com/JackTJC/gmFS_backend/logs"
 	"github.com/go-redis/redis"
 )
 
@@ -18,7 +19,8 @@ func InitCache() {
 	})
 	res, err := redisClient.Ping().Result()
 	if err != nil {
+		logs.Sugar.Fatalf("connect to redis error:%v", err)
 		panic(err)
 	}
-	fmt.Println(res)
+	logs.Sugar.Infof("redis recevie:%v, connect success", res)
 }
