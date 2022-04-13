@@ -7,9 +7,8 @@ import (
 )
 
 type SearchFileHandler struct {
-	ctx  context.Context
-	Req  *pb_gen.SearchFileRequest
-	Resp *pb_gen.SearchFileResponse
+	ctx context.Context
+	Req *pb_gen.SearchFileRequest
 }
 
 func NewSearchFileHandler(ctx context.Context, req *pb_gen.SearchFileRequest) *SearchFileHandler {

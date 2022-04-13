@@ -7,9 +7,8 @@ import (
 )
 
 type DownloadFileHandler struct {
-	ctx  context.Context
-	Req  *pb_gen.DownloadFileRequest
-	Resp *pb_gen.DownloadFileResponse
+	ctx context.Context
+	Req *pb_gen.DownloadFileRequest
 }
 
 func NewDownloadFileHandler(ctx context.Context, req *pb_gen.DownloadFileRequest) *DownloadFileHandler {

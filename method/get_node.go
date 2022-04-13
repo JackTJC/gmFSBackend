@@ -7,9 +7,8 @@ import (
 )
 
 type GetNodeHandler struct {
-	ctx  context.Context
-	Req  *pb_gen.GetNodeRequest
-	Resp *pb_gen.GetNodeResponse
+	ctx context.Context
+	Req *pb_gen.GetNodeRequest
 }
 
 func NewGetNodeHandler(ctx context.Context, req *pb_gen.GetNodeRequest) *GetNodeHandler {

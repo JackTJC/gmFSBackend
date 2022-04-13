@@ -9,8 +9,6 @@ import (
 type CreateDirHandler struct {
 	ctx context.Context
 	Req *pb_gen.CreateDirRequest
-
-	Resp *pb_gen.CreateDirResponse
 }
 
 func NewCreateDirHandler(ctx context.Context, req *pb_gen.CreateDirRequest) *CreateDirHandler {
