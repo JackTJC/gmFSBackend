@@ -34,10 +34,10 @@ CREATE TABLE `search_index`(
 
 CREATE TABLE `node_rel`(
     `id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL COMMENT '主键id',
-    `parent_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '父节点id',
-    `child_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '子节点id',
+    `parent_id` BIGINT UNSIGNED NOT NULL COMMENT '父节点id',
+    `child_id` BIGINT UNSIGNED NOT NULL COMMENT '子节点id',
     `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY(`id`),
-    INDEX `idx_pid`(`parend_id`)
+    INDEX `idx_pid`(`parent_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文件节点引用表';

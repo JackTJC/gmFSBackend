@@ -26,6 +26,7 @@ type GraduateDesignApiClient interface {
 	DownloadFile(ctx context.Context, in *DownloadFileRequest, opts ...grpc.CallOption) (*DownloadFileResponse, error)
 	GetNode(ctx context.Context, in *GetNodeRequest, opts ...grpc.CallOption) (*GetNodeResponse, error)
 	SearchFile(ctx context.Context, in *SearchFileRequest, opts ...grpc.CallOption) (*SearchFileResponse, error)
+	GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
 }
 
 type graduateDesignApiClient struct {
@@ -108,6 +109,15 @@ func (c *graduateDesignApiClient) SearchFile(ctx context.Context, in *SearchFile
 	return out, nil
 }
 
+func (c *graduateDesignApiClient) GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
+	out := new(GetUserInfoResponse)
+	err := c.cc.Invoke(ctx, "/GraduateDesignApi/GetUserInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GraduateDesignApiServer is the server API for GraduateDesignApi service.
 // All implementations must embed UnimplementedGraduateDesignApiServer
 // for forward compatibility
@@ -120,6 +130,7 @@ type GraduateDesignApiServer interface {
 	DownloadFile(context.Context, *DownloadFileRequest) (*DownloadFileResponse, error)
 	GetNode(context.Context, *GetNodeRequest) (*GetNodeResponse, error)
 	SearchFile(context.Context, *SearchFileRequest) (*SearchFileResponse, error)
+	GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error)
 	mustEmbedUnimplementedGraduateDesignApiServer()
 }
 
@@ -150,6 +161,9 @@ func (UnimplementedGraduateDesignApiServer) GetNode(context.Context, *GetNodeReq
 }
 func (UnimplementedGraduateDesignApiServer) SearchFile(context.Context, *SearchFileRequest) (*SearchFileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchFile not implemented")
+}
+func (UnimplementedGraduateDesignApiServer) GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
 }
 func (UnimplementedGraduateDesignApiServer) mustEmbedUnimplementedGraduateDesignApiServer() {}
 
@@ -308,6 +322,24 @@ func _GraduateDesignApi_SearchFile_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GraduateDesignApi_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GraduateDesignApiServer).GetUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/GraduateDesignApi/GetUserInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GraduateDesignApiServer).GetUserInfo(ctx, req.(*GetUserInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GraduateDesignApi_ServiceDesc is the grpc.ServiceDesc for GraduateDesignApi service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -346,6 +378,10 @@ var GraduateDesignApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchFile",
 			Handler:    _GraduateDesignApi_SearchFile_Handler,
+		},
+		{
+			MethodName: "GetUserInfo",
+			Handler:    _GraduateDesignApi_GetUserInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

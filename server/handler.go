@@ -13,6 +13,16 @@ type server struct {
 	pb_gen.UnimplementedGraduateDesignApiServer
 }
 
+func (s *server) GetUserInfo(ctx context.Context, req *pb_gen.GetUserInfoRequest) (resp *pb_gen.GetUserInfoResponse, err error) {
+	defer util.RecoverFromPanic()
+	defer func() {
+		logs.Sugar.Infof("request = %+v", req)
+		logs.Sugar.Infof("response = %+v", resp)
+	}()
+	h := method.NewGetUserInfoHandler(ctx, req)
+	return h.Run(), nil
+}
+
 func (s *server) UserRegister(ctx context.Context, req *pb_gen.UserRegisterRequest) (resp *pb_gen.UserRegisterResponse, err error) {
 	defer util.RecoverFromPanic()
 	defer func() {
