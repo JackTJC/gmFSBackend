@@ -6,8 +6,7 @@ CREATE TABLE `user_info`(
     `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY(`user_id`),
-    UNIQUE KEY `uniq_uid`(`user_id`),
-    INDEX `idx_user_name`(`user_name`)
+    UNIQUE KEY `unique_name`(`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户信息表';
 
 CREATE TABLE `node`(

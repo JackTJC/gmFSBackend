@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/JackTJC/gmFS_backend/dal/db"
+	"github.com/JackTJC/gmFS_backend/logs"
 	"github.com/JackTJC/gmFS_backend/model"
 	"github.com/JackTJC/gmFS_backend/pb_gen"
 	"github.com/JackTJC/gmFS_backend/util"
@@ -33,6 +34,12 @@ func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
 	}
 	err := db.User.CreateUser(user)
 	if err != nil {
+		if err == db.ErrUserExist {
+			logs.Sugar.Errorf("user:%v have exist", h.Req.GetUserName())
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_UserExist)
+			return
+		}
+		logs.Sugar.Errorf("create user error:%v", err)
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}

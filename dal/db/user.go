@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/JackTJC/gmFS_backend/model"
+	"github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
 )
 
@@ -22,6 +23,10 @@ func (d *userDB) CreateUser(user *model.UserInfo) error {
 	user.CreateTime = time.Now()
 	user.UpdateTime = time.Now()
 	if err := gormDB.Model(user).Create(user).Error; err != nil {
+		var mysqlErr *mysql.MySQLError
+		if errors.As(err, &mysqlErr) && mysqlErr.Number == 1062 {
+			return ErrUserExist
+		}
 		return err
 	}
 	return nil
