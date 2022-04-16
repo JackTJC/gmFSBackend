@@ -44,6 +44,7 @@ func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
 		return
 	}
 	// TODO 为用户创建根文件夹
+	resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	return
 }
 
