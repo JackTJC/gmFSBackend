@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/JackTJC/gmFS_backend/pb_gen"
+	"github.com/JackTJC/gmFS_backend/util"
 )
 
 type GetNodeHandler struct {
@@ -19,6 +20,8 @@ func NewGetNodeHandler(ctx context.Context, req *pb_gen.GetNodeRequest) *GetNode
 }
 
 func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
-	resp = &pb_gen.GetNodeResponse{}
+	resp = &pb_gen.GetNodeResponse{
+		BaseResp: util.BuildBaseResp(pb_gen.StatusCode_Success),
+	}
 	return resp
 }

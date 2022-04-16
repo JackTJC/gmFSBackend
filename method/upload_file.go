@@ -24,7 +24,9 @@ func NewUploadFileHandler(ctx context.Context, req *pb_gen.UploadFileRequest) *U
 }
 
 func (h *UploadFileHandler) Run() (resp *pb_gen.UploadFileReponse) {
-	resp = &pb_gen.UploadFileReponse{}
+	resp = &pb_gen.UploadFileReponse{
+		BaseResp: util.BuildBaseResp(pb_gen.StatusCode_Success),
+	}
 	if err := h.checkParams(); err != nil {
 		logs.Sugar.Errorf("checkParams error:%v", err)
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)

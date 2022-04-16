@@ -10,5 +10,5 @@ func main() {
 	logs.InitLog()
 	dal.Init()
 	// grpc_server.GRPCMain()
-	http_server.HTTPMain()
+	http_server.Main()
 }

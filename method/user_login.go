@@ -23,7 +23,9 @@ func NewUserLoginHandler(ctx context.Context, req *pb_gen.UserLoginRequest) *Use
 }
 
 func (h *UserLoginHandler) Run() (resp *pb_gen.UserLoginResponse) {
-	resp = &pb_gen.UserLoginResponse{}
+	resp = &pb_gen.UserLoginResponse{
+		BaseResp: util.BuildBaseResp(pb_gen.StatusCode_Success),
+	}
 	if err := h.checkParams(); err != nil {
 		logs.Sugar.Errorf("checkParams error:%v", err)
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)

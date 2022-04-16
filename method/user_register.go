@@ -24,7 +24,9 @@ func NewUserRegisterHandler(ctx context.Context, req *pb_gen.UserRegisterRequest
 }
 
 func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
-	resp = &pb_gen.UserRegisterResponse{}
+	resp = &pb_gen.UserRegisterResponse{
+		BaseResp: util.BuildBaseResp(pb_gen.StatusCode_Success),
+	}
 	if err := h.checkParams(); err != nil {
 		return
 	}
@@ -44,7 +46,6 @@ func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
 		return
 	}
 	// TODO 为用户创建根文件夹
-	resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	return
 }
 
