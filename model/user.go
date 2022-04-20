@@ -11,6 +11,7 @@ type UserInfo struct {
 	UserName   string    `gorm:"column:user_name;NOT NULL"`                             // 用户名字
 	Password   string    `gorm:"column:password;NOT NULL"`                              // 用户密码
 	Email      string    `gorm:"column:email;NOT NULL"`                                 // 用户邮箱
+	RootNodeID uint64    `gorm:"column:root_node_id;NOT NULL"`                          // 用户网盘根节点id
 	CreateTime time.Time `gorm:"column:create_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 创建时间
 	UpdateTime time.Time `gorm:"column:update_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 更新时间
 }
@@ -18,5 +19,4 @@ type UserInfo struct {
 func (m *UserInfo) TableName() string {
 	return "user_info"
 }
-
 

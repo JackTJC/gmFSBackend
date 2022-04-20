@@ -22,3 +22,13 @@ func InitDB() {
 		panic(err)
 	}
 }
+
+// func Transaction(ctx context.Context, fc func(context.Context) error) {
+// 	db := gormDB.WithContext(ctx)
+// 	db.Transaction(func(tx *gorm.DB) error {
+// 		tx := tx.WithContext(ctx)
+// 		db.Transaction(func(tx *gorm.DB) error {
+// 			return fc(tx.Statement.Context)
+// 		})
+// 	})
+// }

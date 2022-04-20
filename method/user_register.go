@@ -33,6 +33,7 @@ func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
 	user := &model.UserInfo{
 		UserName: h.Req.GetUserName(),
 		Password: h.Req.GetPassword(),
+		Email:    h.Req.GetEmail(),
 	}
 	err := db.User.CreateUser(user)
 	if err != nil {

@@ -47,7 +47,6 @@ func (h *UserLoginHandler) Run() (resp *pb_gen.UserLoginResponse) {
 		return
 	}
 	// TODO 下发用户的token
-	resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	return
 }
 
