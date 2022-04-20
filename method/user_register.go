@@ -21,7 +21,6 @@ func NewUserRegisterHandler(ctx context.Context, req *pb_gen.UserRegisterRequest
 		ctx: ctx,
 		Req: req,
 	}
-
 }
 
 func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
@@ -36,7 +35,7 @@ func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
 		Password: h.Req.GetPassword(),
 		Email:    h.Req.GetEmail(),
 	}
-	err := db.User.CreateUser(user)
+	err := db.User.Create(h.ctx, user)
 	if err != nil {
 		if err == db.ErrUserExist {
 			logs.Sugar.Errorf("user:%v have exist", h.Req.GetUserName())

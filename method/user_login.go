@@ -31,7 +31,7 @@ func (h *UserLoginHandler) Run() (resp *pb_gen.UserLoginResponse) {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
-	user, err := db.User.GetUserByName(h.Req.GetUserName())
+	user, err := db.User.GetByName(h.ctx, h.Req.GetUserName())
 	if err != nil {
 		logs.Sugar.Errorf("GetUserByName error:%v", err)
 		if err == db.ErrUserNotFound {

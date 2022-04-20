@@ -1,6 +1,7 @@
 package db
 
 import (
+	"context"
 	"testing"
 
 	"github.com/JackTJC/gmFS_backend/model"
@@ -8,7 +9,7 @@ import (
 
 func TestCreateUser(t *testing.T) {
 	InitDB()
-	err := User.CreateUser(&model.UserInfo{
+	err := User.Create(context.Background(), &model.UserInfo{
 		UserName: "test",
 		Password: "passwd",
 		Email:    "email",
@@ -18,4 +19,18 @@ func TestCreateUser(t *testing.T) {
 		t.FailNow()
 	}
 	t.Log("success")
+}
+
+func TestTrans(t *testing.T) {
+	InitDB()
+	ctx := context.Background()
+	Transaction(ctx, func(ctx context.Context) error {
+		User.Create(ctx, &model.UserInfo{
+			UserName: "abcdefghi",
+		})
+		Node.Create(ctx, &model.Node{
+			Name: "node name",
+		})
+		return nil
+	})
 }

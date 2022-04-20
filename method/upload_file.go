@@ -37,7 +37,7 @@ func (h *UploadFileHandler) Run() (resp *pb_gen.UploadFileReponse) {
 		Name:     h.Req.GetFileName(),
 		Content:  string(h.Req.GetContent()),
 	}
-	if err := db.Node.Create(node); err != nil {
+	if err := db.Node.Create(h.ctx, node); err != nil {
 		logs.Sugar.Errorf("CreateFile error:%v", err)
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return

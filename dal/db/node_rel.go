@@ -1,6 +1,7 @@
 package db
 
 import (
+	"context"
 	"time"
 
 	"github.com/JackTJC/gmFS_backend/model"
@@ -9,8 +10,9 @@ import (
 type nodeRelDB struct {
 }
 
-func (d *nodeRelDB) Create(m *model.NodeRel) error {
+func (d *nodeRelDB) Create(ctx context.Context, m *model.NodeRel) error {
+	conn := getDbConn(ctx)
 	m.CreateTime = time.Now()
 	m.UpdateTime = time.Now()
-	return gormDB.Model(&model.NodeRel{}).Create(m).Error
+	return conn.Model(&model.NodeRel{}).Create(m).Error
 }

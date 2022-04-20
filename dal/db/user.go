@@ -1,6 +1,7 @@
 package db
 
 import (
+	"context"
 	"errors"
 	"time"
 
@@ -19,10 +20,11 @@ var User *userDB
 type userDB struct {
 }
 
-func (d *userDB) CreateUser(user *model.UserInfo) error {
+func (d *userDB) Create(ctx context.Context, user *model.UserInfo) error {
+	conn := getDbConn(ctx)
 	user.CreateTime = time.Now()
 	user.UpdateTime = time.Now()
-	if err := gormDB.Model(user).Create(user).Error; err != nil {
+	if err := conn.Model(user).Create(user).Error; err != nil {
 		var mysqlErr *mysql.MySQLError
 		if errors.As(err, &mysqlErr) && mysqlErr.Number == 1062 {
 			return ErrUserExist
@@ -32,9 +34,10 @@ func (d *userDB) CreateUser(user *model.UserInfo) error {
 	return nil
 }
 
-func (d *userDB) GetUserByName(name string) (*model.UserInfo, error) {
+func (d *userDB) GetByName(ctx context.Context, name string) (*model.UserInfo, error) {
+	conn := getDbConn(ctx)
 	var ret []*model.UserInfo
-	err := gormDB.Where("user_name = ?", name).Find(&ret).Error
+	err := conn.Where("user_name = ?", name).Find(&ret).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, ErrUserNotFound
