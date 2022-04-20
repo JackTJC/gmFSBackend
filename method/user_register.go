@@ -21,6 +21,7 @@ func NewUserRegisterHandler(ctx context.Context, req *pb_gen.UserRegisterRequest
 		ctx: ctx,
 		Req: req,
 	}
+
 }
 
 func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
