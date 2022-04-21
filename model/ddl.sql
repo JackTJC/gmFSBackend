@@ -11,14 +11,16 @@ CREATE TABLE `user_info`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户信息表';
 
 CREATE TABLE `node`(
-    `node_id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL COMMENT '节点id',
+    `id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL COMMENT '主键id',
+    `node_id` BIGINT UNSIGNED NOT NULL COMMENT '节点id,分享文件使用,64bit',
     `node_type` TINYINT UNSIGNED NOT NULL COMMENT '节点类型',
     `name` VARCHAR(1024) NOT NULL COMMENT '文件名称',
     `content` BLOB NOT NULL COMMENT '文件内容,最大64k',
     `cos_key` VARCHAR(256) NOT NULL COMMENT '文件在cos中的key',
     `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY(`node_id`)
+    PRIMARY KEY(`id`),
+    INDEX `idx_node_id`(`node_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='节点表';
 
 CREATE TABLE `search_index`(

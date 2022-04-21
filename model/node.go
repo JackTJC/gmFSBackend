@@ -7,7 +7,8 @@ import (
 
 // 节点表
 type Node struct {
-	NodeID     uint64    `gorm:"column:node_id;primary_key;AUTO_INCREMENT"`             // 节点id
+	ID         uint64    `gorm:"column:id;primary_key;AUTO_INCREMENT"`                  // 主键id
+	NodeID     uint64    `gorm:"column:node_id;NOT NULL"`                               // 节点id,分享文件使用,64bit
 	NodeType   uint      `gorm:"column:node_type;NOT NULL"`                             // 节点类型
 	Name       string    `gorm:"column:name;NOT NULL"`                                  // 文件名称
 	Content    string    `gorm:"column:content;NOT NULL"`                               // 文件内容,最大64k
@@ -19,4 +20,3 @@ type Node struct {
 func (m *Node) TableName() string {
 	return "node"
 }
-

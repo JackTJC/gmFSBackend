@@ -30,23 +30,43 @@ func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
 	if err := h.checkParams(); err != nil {
 		return
 	}
-	user := &model.UserInfo{
-		UserName: h.Req.GetUserName(),
-		Password: h.Req.GetPassword(),
-		Email:    h.Req.GetEmail(),
-	}
-	err := db.User.Create(h.ctx, user)
-	if err != nil {
-		if err == db.ErrUserExist {
-			logs.Sugar.Errorf("user:%v have exist", h.Req.GetUserName())
-			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_UserExist)
-			return
+	rootNodeID := util.GenId()
+	err := db.Transaction(h.ctx, func(txctx context.Context) error {
+		rootNode := &model.Node{
+			NodeID:   uint64(rootNodeID),
+			NodeType: uint(pb_gen.NodeType_Dir),
+			Name:     h.Req.GetUserName(),
 		}
-		logs.Sugar.Errorf("create user error:%v", err)
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
-		return
+		err := db.Node.Create(txctx, rootNode)
+		if err != nil {
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+			logs.Sugar.Errorf("CreateNode error:%v", err)
+			return err
+		}
+		user := &model.UserInfo{
+			UserName:   h.Req.GetUserName(),
+			Password:   h.Req.GetPassword(),
+			RootNodeID: uint64(rootNodeID),
+			Email:      h.Req.GetEmail(),
+		}
+		if err := db.User.Create(txctx, user); err != nil {
+			if err == db.ErrUserExist {
+				resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_UserExist)
+				logs.Sugar.Errorf("user:%v have exist", h.Req.GetUserName())
+				return err
+			}
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+			logs.Sugar.Errorf("create user error:%v", err)
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		logs.Sugar.Errorf("transaction error:%v", err)
+		if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+		}
 	}
-	// TODO 为用户创建根文件夹
 	return
 }
 

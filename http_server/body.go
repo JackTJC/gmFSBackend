@@ -11,10 +11,10 @@ var (
 	unmarshal = jsonpb.Unmarshaler{AllowUnknownFields: true}
 )
 
-func readBodyFromReq(c *gin.Context, msg proto.Message) error {
+func readBody(c *gin.Context, msg proto.Message) error {
 	return unmarshal.Unmarshal(c.Request.Body, msg)
 }
 
-func writeBodyToResp(c *gin.Context, msg proto.Message) error {
+func writeBody(c *gin.Context, msg proto.Message) error {
 	return marshaler.Marshal(c.Writer, msg)
 }

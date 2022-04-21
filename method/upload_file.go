@@ -33,6 +33,7 @@ func (h *UploadFileHandler) Run() (resp *pb_gen.UploadFileReponse) {
 		return
 	}
 	node := &model.Node{
+		NodeID:   uint64(util.GenId()),
 		NodeType: uint(pb_gen.NodeType_File),
 		Name:     h.Req.GetFileName(),
 		Content:  string(h.Req.GetContent()),
