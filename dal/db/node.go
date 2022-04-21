@@ -19,7 +19,7 @@ func (d *nodeDB) Create(ctx context.Context, node *model.Node) error {
 	return conn.Model(node).Create(node).Error
 }
 
-func (d *nodeDB) MGetById(ctx context.Context, nodeIds []int64) (map[int64]*model.Node, error) {
+func (d *nodeDB) MGetByNodeId(ctx context.Context, nodeIds []int64) (map[int64]*model.Node, error) {
 	conn := getDbConn(ctx)
 	var nodeList []model.Node
 	if err := conn.Model(&model.Node{}).Where("node_id IN (?)", nodeIds).Find(&nodeList).Error; err != nil {

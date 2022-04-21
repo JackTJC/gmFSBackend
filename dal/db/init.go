@@ -28,7 +28,7 @@ type ctxTransactionKey struct {
 }
 
 // 执行事务
-func Transaction(ctx context.Context, fc func(txctx context.Context) error) error {
+func Transaction(ctx context.Context, fc func(ctx context.Context) error) error {
 	db := globalDB.WithContext(ctx)
 	return db.Transaction(func(tx *gorm.DB) error {
 		txctx := context.WithValue(ctx, ctxTransactionKey{}, tx)

@@ -31,13 +31,14 @@ func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
 		return
 	}
 	rootNodeID := util.GenId()
-	err := db.Transaction(h.ctx, func(txctx context.Context) error {
+	// 事务进行两步操作
+	err := db.Transaction(h.ctx, func(ctx context.Context) error {
 		rootNode := &model.Node{
 			NodeID:   uint64(rootNodeID),
 			NodeType: uint(pb_gen.NodeType_Dir),
 			Name:     h.Req.GetUserName(),
 		}
-		err := db.Node.Create(txctx, rootNode)
+		err := db.Node.Create(ctx, rootNode) // 创建该用户的根节点
 		if err != nil {
 			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 			logs.Sugar.Errorf("CreateNode error:%v", err)
@@ -49,7 +50,7 @@ func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
 			RootNodeID: uint64(rootNodeID),
 			Email:      h.Req.GetEmail(),
 		}
-		if err := db.User.Create(txctx, user); err != nil {
+		if err := db.User.Create(ctx, user); err != nil { // 创建用户
 			if err == db.ErrUserExist {
 				resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_UserExist)
 				logs.Sugar.Errorf("user:%v have exist", h.Req.GetUserName())
@@ -66,6 +67,7 @@ func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
 		if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
 			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		}
+		return
 	}
 	return
 }
