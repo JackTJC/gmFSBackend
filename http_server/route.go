@@ -12,7 +12,8 @@ import (
 
 // 设置路由
 func setRoute(r *gin.Engine) {
-	r.Use(headerConfig())
+	r.Use(recognizeContentType)
+	r.Use(writeContentType)
 	r.POST("/ping", ping)
 	r.POST("/user/login", userLogin)
 	r.POST("/user/register", userRegister)
@@ -24,11 +25,33 @@ func setRoute(r *gin.Engine) {
 	r.POST("/user/info/get", getUserInfo)
 }
 
-func headerConfig() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		ctx.Header("Content-Type", "application/json")
-		ctx.Next()
+func recognizeContentType(c *gin.Context) {
+	c.Keys = make(map[string]interface{})
+	var format reqFormat
+	if c.ContentType() == pbContentType {
+		format = pbReqFormat
+	} else {
+		format = jsonReqFormat
 	}
+	c.Keys[formatKey] = format
+	c.Next()
+}
+
+func writeContentType(c *gin.Context) {
+	format, ok := c.Keys[formatKey].(reqFormat)
+	if !ok {
+		c.Next()
+		return
+	}
+	switch format {
+	case jsonReqFormat:
+		c.Header("Content-Type", jsonContentType)
+	case pbReqFormat:
+		c.Header("Content-Type", pbContentType)
+	default:
+		c.Header("Content-Type", jsonContentType)
+	}
+	c.Next()
 }
 
 // template

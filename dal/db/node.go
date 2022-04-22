@@ -21,13 +21,13 @@ func (d *nodeDB) Create(ctx context.Context, node *model.Node) error {
 
 func (d *nodeDB) MGetByNodeId(ctx context.Context, nodeIds []int64) (map[int64]*model.Node, error) {
 	conn := getDbConn(ctx)
-	var nodeList []model.Node
+	var nodeList []*model.Node
 	if err := conn.Model(&model.Node{}).Where("node_id IN (?)", nodeIds).Find(&nodeList).Error; err != nil {
 		return nil, err
 	}
 	ret := make(map[int64]*model.Node)
 	for _, node := range nodeList {
-		ret[int64(node.NodeID)] = &node
+		ret[int64(node.NodeID)] = node
 	}
 	return ret, nil
 }

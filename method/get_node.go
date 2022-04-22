@@ -76,6 +76,7 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 		resp.SubNodes = append(resp.SubNodes, &pb_gen.Node{
 			NodeId:     int64(node.NodeID),
 			NodeName:   node.Name,
+			NodeType:   pb_gen.NodeType(node.NodeType),
 			CreateTime: node.CreateTime.Unix(),
 			UpdateTime: node.UpdateTime.Unix(),
 		})

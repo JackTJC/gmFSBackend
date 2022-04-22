@@ -3,21 +3,35 @@ package db
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
+	"time"
 
 	"github.com/JackTJC/gmFS_backend/config"
 	"github.com/JackTJC/gmFS_backend/logs"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var globalDB *gorm.DB
 
 func InitDB() {
+	newLogger := logger.New(
+		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		logger.Config{
+			SlowThreshold: time.Second, // 慢 SQL 阈值
+			LogLevel:      logger.Info, // Log level
+			Colorful:      true,        // 禁用彩色打印
+		},
+	)
 	var err error
 	conf := config.GetInstance()
 	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/gm_fs?charset=utf8mb4&parseTime=True&loc=Local",
 		conf.MySQL.User, conf.MySQL.Passwd, conf.MySQL.Host, conf.MySQL.Port)
-	globalDB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	globalDB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: newLogger,
+	})
 	if err != nil {
 		logs.Sugar.Errorf("open db error:%v", err)
 		panic(err)
