@@ -31,6 +31,7 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 		util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
+	// 获取当前节点
 	nodeMap, err := db.Node.MGetByNodeId(h.ctx, []int64{h.Req.GetNodeId()})
 	if err != nil {
 		logs.Sugar.Errorf("MGetByNodeId error:%v", err)
@@ -42,6 +43,7 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 		logs.Sugar.Warnf("node id:%v not exist", h.Req.GetNodeId())
 		return
 	}
+	// 打包节点元数据
 	resp.Node = &pb_gen.Node{
 		NodeId:      int64(node.NodeID),
 		NodeName:    node.Name,
@@ -52,6 +54,7 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 	if node.NodeType == uint(pb_gen.NodeType_File) {
 		return
 	}
+	// 获取子节点
 	subNodeList, err := db.NodeRel.GetByParent(h.ctx, h.Req.GetNodeId())
 	if err != nil {
 		logs.Sugar.Errorf("GetByParent error:%v", err)
@@ -68,6 +71,7 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
+	// 打包子节点数据
 	for _, node := range nodeMap {
 		resp.SubNodes = append(resp.SubNodes, &pb_gen.Node{
 			NodeId:     int64(node.NodeID),
