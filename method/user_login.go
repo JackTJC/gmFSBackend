@@ -46,7 +46,13 @@ func (h *UserLoginHandler) Run() (resp *pb_gen.UserLoginResponse) {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_WrongPasswd)
 		return
 	}
-	// TODO 下发用户的token
+	resp.UserInfo = &pb_gen.UserInfo{
+		RootId:   int64(user.RootNodeID),
+		UserName: user.UserName,
+		Email:    user.Email,
+	}
+	token := util.GenUUID() // 暂时这样
+	resp.Token = token
 	return
 }
 

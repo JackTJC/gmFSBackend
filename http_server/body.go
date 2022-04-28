@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/JackTJC/gmFS_backend/logs"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
@@ -17,7 +18,7 @@ const (
 	pbReqFormat     reqFormat = 2
 	formatKey                 = "req_format"
 	jsonContentType           = "application/json"
-	pbContentType             = "application/x-protobuf"
+	pbContentType             = "application/octet-stream"
 )
 
 var (
@@ -32,14 +33,21 @@ func readBody(c *gin.Context, msg proto.Message) error {
 	}
 	switch format {
 	case jsonReqFormat:
-		c.Header("Content-Type", jsonContentType)
-		return unmarshal.Unmarshal(c.Request.Body, msg)
+		if err := unmarshal.Unmarshal(c.Request.Body, msg); err != nil {
+			logs.Sugar.Errorf("json unmarshal error:%v", err)
+			return err
+		}
+		return nil
 	case pbReqFormat:
 		bodyData, err := ioutil.ReadAll(c.Request.Body)
 		if err != nil {
+			logs.Sugar.Errorf("readall error:%v", err)
 			return err
 		}
-		return proto.Unmarshal(bodyData, msg)
+		if err := proto.Unmarshal(bodyData, msg); err != nil {
+			logs.Sugar.Errorf("protobuf unmarshal error:%v", err)
+		}
+		return nil
 	default:
 		return errors.New("unknown req format")
 	}
@@ -52,10 +60,15 @@ func writeBody(c *gin.Context, msg proto.Message) error {
 	}
 	switch format {
 	case jsonReqFormat:
-		return marshaler.Marshal(c.Writer, msg)
+		if err := marshaler.Marshal(c.Writer, msg); err != nil {
+			logs.Sugar.Errorf("json marshal error:%v", err)
+			return err
+		}
+		return nil
 	case pbReqFormat:
 		bodyData, err := proto.Marshal(msg)
 		if err != nil {
+			logs.Sugar.Errorf("protobuf marshal error:%v", err)
 			return err
 		}
 		c.Data(http.StatusOK, pbContentType, bodyData)

@@ -3,6 +3,7 @@ package util
 import (
 	"github.com/JackTJC/gmFS_backend/logs"
 	"github.com/bwmarrin/snowflake"
+	"github.com/google/uuid"
 )
 
 var node *snowflake.Node
@@ -20,4 +21,8 @@ func initIDGen() {
 func GenId() int64 {
 	id := node.Generate()
 	return id.Int64()
+}
+
+func GenUUID() string {
+	return uuid.New().String()
 }

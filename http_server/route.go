@@ -58,13 +58,11 @@ func writeContentType(c *gin.Context) {
 func ping(c *gin.Context) {
 	req := &pb_gen.PingRequest{}
 	if err := readBody(c, req); err != nil { // 从http request body解析初请求
-		logs.Sugar.Errorf("unmarshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
 	resp := method.NewPingHandler(c.Request.Context(), req).Run() // 业务逻辑
 	if err := writeBody(c, resp); err != nil {                    // 响应写回http response
-		logs.Sugar.Errorf("marshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
@@ -78,13 +76,11 @@ func ping(c *gin.Context) {
 func userLogin(c *gin.Context) {
 	req := &pb_gen.UserLoginRequest{}
 	if err := readBody(c, req); err != nil {
-		logs.Sugar.Errorf("unmarshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
 	resp := method.NewUserLoginHandler(c.Request.Context(), req).Run()
 	if err := writeBody(c, resp); err != nil {
-		logs.Sugar.Errorf("marshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
@@ -97,13 +93,11 @@ func userLogin(c *gin.Context) {
 func userRegister(c *gin.Context) {
 	req := &pb_gen.UserRegisterRequest{}
 	if err := readBody(c, req); err != nil {
-		logs.Sugar.Errorf("unmarshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
 	resp := method.NewUserRegisterHandler(c.Request.Context(), req).Run()
 	if err := writeBody(c, resp); err != nil {
-		logs.Sugar.Errorf("marshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
@@ -116,13 +110,11 @@ func userRegister(c *gin.Context) {
 func createDir(c *gin.Context) {
 	req := &pb_gen.CreateDirRequest{}
 	if err := readBody(c, req); err != nil {
-		logs.Sugar.Errorf("unmarshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
 	resp := method.NewCreateDirHandler(c.Request.Context(), req).Run()
 	if err := writeBody(c, resp); err != nil {
-		logs.Sugar.Errorf("marshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
@@ -135,13 +127,11 @@ func createDir(c *gin.Context) {
 func getUserInfo(c *gin.Context) {
 	req := &pb_gen.GetUserInfoRequest{}
 	if err := readBody(c, req); err != nil {
-		logs.Sugar.Errorf("unmarshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
 	resp := method.NewGetUserInfoHandler(c.Request.Context(), req).Run()
 	if err := writeBody(c, resp); err != nil {
-		logs.Sugar.Errorf("marshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
@@ -154,13 +144,11 @@ func getUserInfo(c *gin.Context) {
 func uploadFile(c *gin.Context) {
 	req := &pb_gen.UploadFileRequest{}
 	if err := readBody(c, req); err != nil {
-		logs.Sugar.Errorf("unmarshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
 	resp := method.NewUploadFileHandler(c.Request.Context(), req).Run()
 	if err := writeBody(c, resp); err != nil {
-		logs.Sugar.Errorf("marshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
@@ -173,13 +161,11 @@ func uploadFile(c *gin.Context) {
 func downloadFile(c *gin.Context) {
 	req := &pb_gen.DownloadFileRequest{}
 	if err := readBody(c, req); err != nil {
-		logs.Sugar.Errorf("unmarshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
 	resp := method.NewDownloadFileHandler(c.Request.Context(), req).Run()
 	if err := writeBody(c, resp); err != nil {
-		logs.Sugar.Errorf("marshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
@@ -193,13 +179,11 @@ func downloadFile(c *gin.Context) {
 func searchFile(c *gin.Context) {
 	req := &pb_gen.SearchFileRequest{}
 	if err := readBody(c, req); err != nil {
-		logs.Sugar.Errorf("unmarshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
 	resp := method.NewSearchFileHandler(c.Request.Context(), req).Run()
 	if err := writeBody(c, resp); err != nil {
-		logs.Sugar.Errorf("marshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
@@ -212,13 +196,11 @@ func searchFile(c *gin.Context) {
 func getNode(c *gin.Context) {
 	req := &pb_gen.GetNodeRequest{}
 	if err := readBody(c, req); err != nil {
-		logs.Sugar.Errorf("unmarshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}
 	resp := method.NewGetNodeHandler(c.Request.Context(), req).Run()
 	if err := writeBody(c, resp); err != nil {
-		logs.Sugar.Errorf("marshal error:%v", err)
 		c.Status(http.StatusInternalServerError)
 		return
 	}

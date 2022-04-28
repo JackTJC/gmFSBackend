@@ -43,3 +43,23 @@ CREATE TABLE `node_rel`(
     PRIMARY KEY(`id`),
     INDEX `idx_pid`(`parent_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文件节点引用表';
+
+CREATE TABLE `file_index`(
+    `id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL COMMENT '主键id',
+    `file_id` BIGINT UNSIGNED NOT NULL COMMENT '文件id',
+    `keyword` VARCHAR(256) NOT NULL COMMENT '关键词W',
+    `L` VARCHAR(256) NOT NULL COMMENT '',
+    `I_w` VARCHAR(256) NOT NULL COMMENT '',
+    `R_w` VARCHAR(256) NOT NULL COMMENT '',
+    `C_w` VARCHAR(256) NOT NULL COMMENT '',
+    `I_id` VARCHAR(256) NOT NULL COMMENT '',
+    `R_id` VARCHAR(256) NOT NULL COMMENT '',
+    `C_id` VARCHAR(256) NOT NULL COMMENT '',
+    `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY(`id`),
+    INDEX `idx_L`(`L`),
+    INDEX `idx_kw`(`keyword`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文件节点引用表';
+
+

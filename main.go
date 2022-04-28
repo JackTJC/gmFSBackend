@@ -11,5 +11,5 @@ func main() {
 	logs.InitLog()
 	dal.Init()
 	util.Init()
-	http_server.Main()
+	http_server.Main(true)
 }
