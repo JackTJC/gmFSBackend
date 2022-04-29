@@ -28,6 +28,7 @@ func tlsHandler(port int) gin.HandlerFunc {
 
 		// If there was an error, do not continue.
 		if err != nil {
+			c.Abort()
 			return
 		}
 
