@@ -72,8 +72,9 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 		return
 	}
 	// 打包子节点数据
+	pbSubNodes := make([]*pb_gen.Node, 0, len(nodeMap))
 	for _, node := range nodeMap {
-		resp.SubNodes = append(resp.SubNodes, &pb_gen.Node{
+		pbSubNodes = append(pbSubNodes, &pb_gen.Node{
 			NodeId:     int64(node.NodeID),
 			NodeName:   node.Name,
 			NodeType:   pb_gen.NodeType(node.NodeType),
@@ -81,6 +82,8 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 			UpdateTime: node.UpdateTime.Unix(),
 		})
 	}
+	resp.SubNodes = pbSubNodes
+	resp.Node.SubNodeList = pbSubNodes
 	return
 }
 

@@ -81,7 +81,7 @@ type GetNodeResponse struct {
 	unknownFields protoimpl.UnknownFields
 
 	Node     *Node     `protobuf:"bytes,1,opt,name=node,proto3" json:"node,omitempty"`         // 节点
-	SubNodes []*Node   `protobuf:"bytes,2,rep,name=subNodes,proto3" json:"subNodes,omitempty"` // 子节点
+	SubNodes []*Node   `protobuf:"bytes,2,rep,name=subNodes,proto3" json:"subNodes,omitempty"` // 子节点 deprecated
 	BaseResp *BaseResp `protobuf:"bytes,255,opt,name=baseResp,proto3" json:"baseResp,omitempty"`
 }
 
