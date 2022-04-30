@@ -31,7 +31,6 @@ func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
 		return
 	}
 	rootNodeID := util.GenId()
-	// 事务进行两步操作
 	err := db.Transaction(h.ctx, func(ctx context.Context) error {
 		rootNode := &model.Node{
 			NodeID:   uint64(rootNodeID),

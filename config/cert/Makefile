@@ -6,5 +6,10 @@ generate:
 validate:
 	openssl x509 -in domain.crt -noout -text
 
-cert_2_perm:
+cert_2_pem:
 	openssl x509 -in domain.crt -out domain.pem
+
+pem_2_p12:
+	openssl pkcs12 -export -in domain.pem -out domain.p12 -nokeys
+
+
