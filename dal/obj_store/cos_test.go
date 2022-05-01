@@ -12,7 +12,7 @@ func TestCOS(t *testing.T) {
 		t.Error(err)
 		t.FailNow()
 	}
-	t.Log(client.BaseURL)
+	t.Log(client.BaseURL.BucketURL)
 	for _, b := range s.Buckets {
 		t.Log(b)
 	}

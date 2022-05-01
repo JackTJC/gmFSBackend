@@ -13,7 +13,7 @@ var client *cos.Client
 
 func InitCOS() {
 	conf := config.GetInstance().COS
-	u, _ := url.Parse(conf.BaseURL)
+	u, _ := url.Parse(conf.BucketURL)
 	su, _ := url.Parse(conf.ServiceURL)
 	b := &cos.BaseURL{BucketURL: u, ServiceURL: su}
 	// sid,sk, https://console.cloud.tencent.com/cam/capi

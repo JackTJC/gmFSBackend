@@ -3,8 +3,10 @@ package method
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/JackTJC/gmFS_backend/dal/db"
+	objstore "github.com/JackTJC/gmFS_backend/dal/obj_store"
 	"github.com/JackTJC/gmFS_backend/logs"
 	"github.com/JackTJC/gmFS_backend/model"
 	"github.com/JackTJC/gmFS_backend/pb_gen"
@@ -33,6 +35,11 @@ func (h *UploadFileHandler) Run() (resp *pb_gen.UploadFileReponse) {
 		return
 	}
 	nodeID := uint64(util.GenId())
+	if err := objstore.UploadFile(h.ctx, GenCosFileKey(int64(nodeID)), h.Req.Content); err != nil {
+		logs.Sugar.Errorf("upload file cos upload error:%v", err)
+		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+		return
+	}
 	err := db.Transaction(h.ctx, func(ctx context.Context) error {
 		nodeRel := &model.NodeRel{
 			ParentID: uint64(h.Req.GetParentId()),
@@ -74,4 +81,8 @@ func (h *UploadFileHandler) checkParams() error {
 		return errors.New("empty file content")
 	}
 	return nil
+}
+
+func GenCosFileKey(fileId int64) string {
+	return fmt.Sprintf("file/%v", fileId)
 }

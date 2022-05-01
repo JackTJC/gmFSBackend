@@ -28,7 +28,7 @@ type Redis struct {
 }
 
 type COS struct {
-	BaseURL    string `yaml:"BaseURL"`
+	BucketURL  string `yaml:"BucketURL"`
 	ServiceURL string `yaml:"ServiceURL"`
 	SecretID   string `yaml:"SecretID"`
 	SecretKey  string `yaml:"SecretKey"`

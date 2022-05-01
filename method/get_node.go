@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/JackTJC/gmFS_backend/dal/db"
+	objstore "github.com/JackTJC/gmFS_backend/dal/obj_store"
 	"github.com/JackTJC/gmFS_backend/logs"
 	"github.com/JackTJC/gmFS_backend/pb_gen"
 	"github.com/JackTJC/gmFS_backend/util"
@@ -45,13 +46,21 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 	}
 	// 打包节点元数据
 	resp.Node = &pb_gen.Node{
-		NodeId:      int64(node.NodeID),
-		NodeName:    node.Name,
-		NodeContent: []byte(node.Content),
-		CreateTime:  node.CreateTime.Unix(),
-		UpdateTime:  node.UpdateTime.Unix(),
+		NodeId:   int64(node.NodeID),
+		NodeName: node.Name,
+		// NodeContent: []byte(node.Content),
+		CreateTime: node.CreateTime.Unix(),
+		UpdateTime: node.UpdateTime.Unix(),
 	}
 	if node.NodeType == uint(pb_gen.NodeType_File) {
+		// 填充内容
+		content, err := objstore.DownloadFile(h.ctx, GenCosFileKey(int64(node.NodeID)))
+		if err != nil {
+			logs.Sugar.Errorf("get node cos download error:%c", err)
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+			return
+		}
+		resp.Node.NodeContent = content
 		return
 	}
 	// 获取子节点
