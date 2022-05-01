@@ -29,6 +29,7 @@ var (
 func readBody(c *gin.Context, msg proto.Message) error {
 	format, ok := c.Keys[formatKey].(reqFormat)
 	if !ok {
+		logs.Sugar.Errorf("type assert error")
 		return errors.New("type assert error")
 	}
 	switch format {
