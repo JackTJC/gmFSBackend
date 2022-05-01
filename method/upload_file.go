@@ -54,7 +54,7 @@ func (h *UploadFileHandler) Run() (resp *pb_gen.UploadFileReponse) {
 			NodeID:   nodeID,
 			NodeType: uint(pb_gen.NodeType_File),
 			Name:     h.Req.GetFileName(),
-			Content:  string(h.Req.GetContent()),
+			// Content:  string(h.Req.GetContent()),
 		}
 		if err := db.Node.Create(ctx, node); err != nil {
 			logs.Sugar.Errorf("Create Node error:%v", err)
@@ -83,6 +83,7 @@ func (h *UploadFileHandler) checkParams() error {
 	return nil
 }
 
+// 生成 file/{node_id}形式的key
 func GenCosFileKey(fileId int64) string {
 	return fmt.Sprintf("file/%v", fileId)
 }
