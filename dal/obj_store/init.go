@@ -8,6 +8,7 @@ import (
 	"github.com/tencentyun/cos-go-sdk-v5"
 )
 
+// refer: https://cloud.tencent.com/document/product/436/31215
 var client *cos.Client
 
 func InitCOS() {
