@@ -201,40 +201,6 @@ func local_request_GraduateDesignApi_UploadFile_0(ctx context.Context, marshaler
 
 }
 
-func request_GraduateDesignApi_DownloadFile_0(ctx context.Context, marshaler runtime.Marshaler, client GraduateDesignApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DownloadFileRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-
-	msg, err := client.DownloadFile(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
-	return msg, metadata, err
-
-}
-
-func local_request_GraduateDesignApi_DownloadFile_0(ctx context.Context, marshaler runtime.Marshaler, server GraduateDesignApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq DownloadFileRequest
-	var metadata runtime.ServerMetadata
-
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
-	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-
-	msg, err := server.DownloadFile(ctx, &protoReq)
-	return msg, metadata, err
-
-}
-
 func request_GraduateDesignApi_GetNode_0(ctx context.Context, marshaler runtime.Marshaler, client GraduateDesignApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetNodeRequest
 	var metadata runtime.ServerMetadata
@@ -303,8 +269,8 @@ func local_request_GraduateDesignApi_SearchFile_0(ctx context.Context, marshaler
 
 }
 
-func request_GraduateDesignApi_GetUserInfo_0(ctx context.Context, marshaler runtime.Marshaler, client GraduateDesignApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetUserInfoRequest
+func request_GraduateDesignApi_RegisterFile_0(ctx context.Context, marshaler runtime.Marshaler, client GraduateDesignApiClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq RegisterFileRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -315,13 +281,13 @@ func request_GraduateDesignApi_GetUserInfo_0(ctx context.Context, marshaler runt
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetUserInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.RegisterFile(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_GraduateDesignApi_GetUserInfo_0(ctx context.Context, marshaler runtime.Marshaler, server GraduateDesignApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetUserInfoRequest
+func local_request_GraduateDesignApi_RegisterFile_0(ctx context.Context, marshaler runtime.Marshaler, server GraduateDesignApiServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq RegisterFileRequest
 	var metadata runtime.ServerMetadata
 
 	newReader, berr := utilities.IOReaderFactory(req.Body)
@@ -332,7 +298,7 @@ func local_request_GraduateDesignApi_GetUserInfo_0(ctx context.Context, marshale
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetUserInfo(ctx, &protoReq)
+	msg, err := server.RegisterFile(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -463,30 +429,6 @@ func RegisterGraduateDesignApiHandlerServer(ctx context.Context, mux *runtime.Se
 
 	})
 
-	mux.Handle("POST", pattern_GraduateDesignApi_DownloadFile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		var stream runtime.ServerTransportStream
-		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.GraduateDesignApi/DownloadFile", runtime.WithHTTPPathPattern("/file/download"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := local_request_GraduateDesignApi_DownloadFile_0(ctx, inboundMarshaler, server, req, pathParams)
-		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
-		ctx = runtime.NewServerMetadataContext(ctx, md)
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_GraduateDesignApi_DownloadFile_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
 	mux.Handle("POST", pattern_GraduateDesignApi_GetNode_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -535,19 +477,19 @@ func RegisterGraduateDesignApiHandlerServer(ctx context.Context, mux *runtime.Se
 
 	})
 
-	mux.Handle("POST", pattern_GraduateDesignApi_GetUserInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_GraduateDesignApi_RegisterFile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.GraduateDesignApi/GetUserInfo", runtime.WithHTTPPathPattern("/user/info/get"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.GraduateDesignApi/RegisterFile", runtime.WithHTTPPathPattern("/file/register"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_GraduateDesignApi_GetUserInfo_0(ctx, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_GraduateDesignApi_RegisterFile_0(ctx, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
@@ -555,7 +497,7 @@ func RegisterGraduateDesignApiHandlerServer(ctx context.Context, mux *runtime.Se
 			return
 		}
 
-		forward_GraduateDesignApi_GetUserInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_GraduateDesignApi_RegisterFile_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -705,27 +647,6 @@ func RegisterGraduateDesignApiHandlerClient(ctx context.Context, mux *runtime.Se
 
 	})
 
-	mux.Handle("POST", pattern_GraduateDesignApi_DownloadFile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		ctx, cancel := context.WithCancel(req.Context())
-		defer cancel()
-		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/.GraduateDesignApi/DownloadFile", runtime.WithHTTPPathPattern("/file/download"))
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-		resp, md, err := request_GraduateDesignApi_DownloadFile_0(ctx, inboundMarshaler, client, req, pathParams)
-		ctx = runtime.NewServerMetadataContext(ctx, md)
-		if err != nil {
-			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-			return
-		}
-
-		forward_GraduateDesignApi_DownloadFile_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
-	})
-
 	mux.Handle("POST", pattern_GraduateDesignApi_GetNode_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -768,24 +689,24 @@ func RegisterGraduateDesignApiHandlerClient(ctx context.Context, mux *runtime.Se
 
 	})
 
-	mux.Handle("POST", pattern_GraduateDesignApi_GetUserInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_GraduateDesignApi_RegisterFile_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/.GraduateDesignApi/GetUserInfo", runtime.WithHTTPPathPattern("/user/info/get"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/.GraduateDesignApi/RegisterFile", runtime.WithHTTPPathPattern("/file/register"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_GraduateDesignApi_GetUserInfo_0(ctx, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_GraduateDesignApi_RegisterFile_0(ctx, inboundMarshaler, client, req, pathParams)
 		ctx = runtime.NewServerMetadataContext(ctx, md)
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_GraduateDesignApi_GetUserInfo_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_GraduateDesignApi_RegisterFile_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -803,13 +724,11 @@ var (
 
 	pattern_GraduateDesignApi_UploadFile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"file", "upload"}, ""))
 
-	pattern_GraduateDesignApi_DownloadFile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"file", "download"}, ""))
-
 	pattern_GraduateDesignApi_GetNode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"node", "get"}, ""))
 
 	pattern_GraduateDesignApi_SearchFile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"file", "search"}, ""))
 
-	pattern_GraduateDesignApi_GetUserInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"user", "info", "get"}, ""))
+	pattern_GraduateDesignApi_RegisterFile_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"file", "register"}, ""))
 )
 
 var (
@@ -823,11 +742,9 @@ var (
 
 	forward_GraduateDesignApi_UploadFile_0 = runtime.ForwardResponseMessage
 
-	forward_GraduateDesignApi_DownloadFile_0 = runtime.ForwardResponseMessage
-
 	forward_GraduateDesignApi_GetNode_0 = runtime.ForwardResponseMessage
 
 	forward_GraduateDesignApi_SearchFile_0 = runtime.ForwardResponseMessage
 
-	forward_GraduateDesignApi_GetUserInfo_0 = runtime.ForwardResponseMessage
+	forward_GraduateDesignApi_RegisterFile_0 = runtime.ForwardResponseMessage
 )

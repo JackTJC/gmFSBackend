@@ -17,12 +17,9 @@ func setRoute(r *gin.Engine) {
 	r.POST("/user/register", userRegister)
 	r.POST("/dir/create", createDir)
 	r.POST("/file/upload", uploadFile)
-	r.POST("/file/download", downloadFile)
 	r.POST("/file/search", searchFile)
 	r.POST("/node/get", getNode)
-	r.POST("/user/info/get", getUserInfo)
 	r.POST("/file/register", registerFile)
-	r.POST("/dir/get_all", getAllDir)
 }
 
 // template
@@ -95,23 +92,7 @@ func createDir(c *gin.Context) {
 	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
 	c.Status(http.StatusOK)
 }
-func getUserInfo(c *gin.Context) {
-	req := &pb_gen.GetUserInfoRequest{}
-	if err := readBody(c, req); err != nil {
-		c.Status(http.StatusInternalServerError)
-		return
-	}
-	resp := method.NewGetUserInfoHandler(c.Request.Context(), req).Run()
-	if err := writeBody(c, resp); err != nil {
-		c.Status(http.StatusInternalServerError)
-		return
-	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
-	}
-	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
-	c.Status(http.StatusOK)
-}
+
 func uploadFile(c *gin.Context) {
 	req := &pb_gen.UploadFileRequest{}
 	if err := readBody(c, req); err != nil {
@@ -119,23 +100,6 @@ func uploadFile(c *gin.Context) {
 		return
 	}
 	resp := method.NewUploadFileHandler(c.Request.Context(), req).Run()
-	if err := writeBody(c, resp); err != nil {
-		c.Status(http.StatusInternalServerError)
-		return
-	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
-	}
-	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
-	c.Status(http.StatusOK)
-}
-func downloadFile(c *gin.Context) {
-	req := &pb_gen.DownloadFileRequest{}
-	if err := readBody(c, req); err != nil {
-		c.Status(http.StatusInternalServerError)
-		return
-	}
-	resp := method.NewDownloadFileHandler(c.Request.Context(), req).Run()
 	if err := writeBody(c, resp); err != nil {
 		c.Status(http.StatusInternalServerError)
 		return
@@ -182,23 +146,6 @@ func getNode(c *gin.Context) {
 	c.Status(http.StatusOK)
 }
 
-func getAllDir(c *gin.Context) {
-	req := &pb_gen.GetAllDirRequest{}
-	if err := readBody(c, req); err != nil {
-		c.Status(http.StatusInternalServerError)
-		return
-	}
-	resp := method.NewGetAllDirHandler(c.Request.Context(), req).Run()
-	if err := writeBody(c, resp); err != nil {
-		c.Status(http.StatusInternalServerError)
-		return
-	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
-	}
-	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
-	c.Status(http.StatusOK)
-}
 func registerFile(c *gin.Context) {
 	req := &pb_gen.RegisterFileRequest{}
 	if err := readBody(c, req); err != nil {

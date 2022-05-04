@@ -23,10 +23,9 @@ type GraduateDesignApiClient interface {
 	UserLogin(ctx context.Context, in *UserLoginRequest, opts ...grpc.CallOption) (*UserLoginResponse, error)
 	CreateDir(ctx context.Context, in *CreateDirRequest, opts ...grpc.CallOption) (*CreateDirResponse, error)
 	UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileReponse, error)
-	DownloadFile(ctx context.Context, in *DownloadFileRequest, opts ...grpc.CallOption) (*DownloadFileResponse, error)
 	GetNode(ctx context.Context, in *GetNodeRequest, opts ...grpc.CallOption) (*GetNodeResponse, error)
 	SearchFile(ctx context.Context, in *SearchFileRequest, opts ...grpc.CallOption) (*SearchFileResponse, error)
-	GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error)
+	RegisterFile(ctx context.Context, in *RegisterFileRequest, opts ...grpc.CallOption) (*RegisterFileResponse, error)
 }
 
 type graduateDesignApiClient struct {
@@ -82,15 +81,6 @@ func (c *graduateDesignApiClient) UploadFile(ctx context.Context, in *UploadFile
 	return out, nil
 }
 
-func (c *graduateDesignApiClient) DownloadFile(ctx context.Context, in *DownloadFileRequest, opts ...grpc.CallOption) (*DownloadFileResponse, error) {
-	out := new(DownloadFileResponse)
-	err := c.cc.Invoke(ctx, "/GraduateDesignApi/DownloadFile", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *graduateDesignApiClient) GetNode(ctx context.Context, in *GetNodeRequest, opts ...grpc.CallOption) (*GetNodeResponse, error) {
 	out := new(GetNodeResponse)
 	err := c.cc.Invoke(ctx, "/GraduateDesignApi/GetNode", in, out, opts...)
@@ -109,9 +99,9 @@ func (c *graduateDesignApiClient) SearchFile(ctx context.Context, in *SearchFile
 	return out, nil
 }
 
-func (c *graduateDesignApiClient) GetUserInfo(ctx context.Context, in *GetUserInfoRequest, opts ...grpc.CallOption) (*GetUserInfoResponse, error) {
-	out := new(GetUserInfoResponse)
-	err := c.cc.Invoke(ctx, "/GraduateDesignApi/GetUserInfo", in, out, opts...)
+func (c *graduateDesignApiClient) RegisterFile(ctx context.Context, in *RegisterFileRequest, opts ...grpc.CallOption) (*RegisterFileResponse, error) {
+	out := new(RegisterFileResponse)
+	err := c.cc.Invoke(ctx, "/GraduateDesignApi/RegisterFile", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -127,10 +117,9 @@ type GraduateDesignApiServer interface {
 	UserLogin(context.Context, *UserLoginRequest) (*UserLoginResponse, error)
 	CreateDir(context.Context, *CreateDirRequest) (*CreateDirResponse, error)
 	UploadFile(context.Context, *UploadFileRequest) (*UploadFileReponse, error)
-	DownloadFile(context.Context, *DownloadFileRequest) (*DownloadFileResponse, error)
 	GetNode(context.Context, *GetNodeRequest) (*GetNodeResponse, error)
 	SearchFile(context.Context, *SearchFileRequest) (*SearchFileResponse, error)
-	GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error)
+	RegisterFile(context.Context, *RegisterFileRequest) (*RegisterFileResponse, error)
 	mustEmbedUnimplementedGraduateDesignApiServer()
 }
 
@@ -153,17 +142,14 @@ func (UnimplementedGraduateDesignApiServer) CreateDir(context.Context, *CreateDi
 func (UnimplementedGraduateDesignApiServer) UploadFile(context.Context, *UploadFileRequest) (*UploadFileReponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadFile not implemented")
 }
-func (UnimplementedGraduateDesignApiServer) DownloadFile(context.Context, *DownloadFileRequest) (*DownloadFileResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DownloadFile not implemented")
-}
 func (UnimplementedGraduateDesignApiServer) GetNode(context.Context, *GetNodeRequest) (*GetNodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNode not implemented")
 }
 func (UnimplementedGraduateDesignApiServer) SearchFile(context.Context, *SearchFileRequest) (*SearchFileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchFile not implemented")
 }
-func (UnimplementedGraduateDesignApiServer) GetUserInfo(context.Context, *GetUserInfoRequest) (*GetUserInfoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+func (UnimplementedGraduateDesignApiServer) RegisterFile(context.Context, *RegisterFileRequest) (*RegisterFileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterFile not implemented")
 }
 func (UnimplementedGraduateDesignApiServer) mustEmbedUnimplementedGraduateDesignApiServer() {}
 
@@ -268,24 +254,6 @@ func _GraduateDesignApi_UploadFile_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GraduateDesignApi_DownloadFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DownloadFileRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(GraduateDesignApiServer).DownloadFile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/GraduateDesignApi/DownloadFile",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GraduateDesignApiServer).DownloadFile(ctx, req.(*DownloadFileRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _GraduateDesignApi_GetNode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetNodeRequest)
 	if err := dec(in); err != nil {
@@ -322,20 +290,20 @@ func _GraduateDesignApi_SearchFile_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GraduateDesignApi_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserInfoRequest)
+func _GraduateDesignApi_RegisterFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterFileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GraduateDesignApiServer).GetUserInfo(ctx, in)
+		return srv.(GraduateDesignApiServer).RegisterFile(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/GraduateDesignApi/GetUserInfo",
+		FullMethod: "/GraduateDesignApi/RegisterFile",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GraduateDesignApiServer).GetUserInfo(ctx, req.(*GetUserInfoRequest))
+		return srv.(GraduateDesignApiServer).RegisterFile(ctx, req.(*RegisterFileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -368,10 +336,6 @@ var GraduateDesignApi_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GraduateDesignApi_UploadFile_Handler,
 		},
 		{
-			MethodName: "DownloadFile",
-			Handler:    _GraduateDesignApi_DownloadFile_Handler,
-		},
-		{
 			MethodName: "GetNode",
 			Handler:    _GraduateDesignApi_GetNode_Handler,
 		},
@@ -380,8 +344,8 @@ var GraduateDesignApi_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GraduateDesignApi_SearchFile_Handler,
 		},
 		{
-			MethodName: "GetUserInfo",
-			Handler:    _GraduateDesignApi_GetUserInfo_Handler,
+			MethodName: "RegisterFile",
+			Handler:    _GraduateDesignApi_RegisterFile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
