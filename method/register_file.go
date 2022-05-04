@@ -39,7 +39,7 @@ func (h *RegisterFileHandler) Run() (resp *pb_gen.RegisterFileResponse) {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
-	return nil
+	return
 }
 
 func (h *RegisterFileHandler) checkParams() error {

@@ -20,7 +20,7 @@ func InitLog() {
 }
 
 func getLogWriter() zapcore.WriteSyncer {
-	file, _ := os.Create("./test.log")
+	file, _ := os.Create("./app.log")
 	return zapcore.AddSync(file)
 }
 
