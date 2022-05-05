@@ -28,6 +28,11 @@ func (h *SearchFileHandler) Run() (resp *pb_gen.SearchFileResponse) {
 	resp = &pb_gen.SearchFileResponse{
 		BaseResp: util.BuildBaseResp(pb_gen.StatusCode_Success),
 	}
+	if err := h.checkParams(); err != nil {
+		logs.Sugar.Errorf("search file check params error:%v", err)
+		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+		return
+	}
 	// 获取该用户的所有file id
 	sks, err := db.SecretKey.GetByUID(h.ctx, h.uid)
 	if err != nil {
@@ -38,6 +43,9 @@ func (h *SearchFileHandler) Run() (resp *pb_gen.SearchFileResponse) {
 	var fileIDList []uint64
 	for _, sk := range sks {
 		fileIDList = append(fileIDList, sk.FileID)
+	}
+	if len(fileIDList) == 0 {
+		return
 	}
 	// 搜索该关键词
 	searchIdxs, err := db.SearchIndex.SearchByKwAndFileID(h.ctx, h.Req.GetKeyword(), fileIDList)
