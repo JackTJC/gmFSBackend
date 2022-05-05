@@ -38,7 +38,7 @@ func (h *SearchFileHandler) Run() (resp *pb_gen.SearchFileResponse) {
 	if err != nil {
 		logs.Sugar.Errorf("search file get sks error:%v", err)
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
-		return nil
+		return
 	}
 	var fileIDList []uint64
 	for _, sk := range sks {
@@ -52,7 +52,7 @@ func (h *SearchFileHandler) Run() (resp *pb_gen.SearchFileResponse) {
 	if err != nil {
 		logs.Sugar.Errorf("search file search error:%v", err)
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
-		return nil
+		return
 	}
 	// 拉取node
 	var searchResultIDList []uint64
