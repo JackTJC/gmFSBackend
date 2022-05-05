@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/JackTJC/gmFS_backend/dal/cache"
 	"github.com/JackTJC/gmFS_backend/dal/db"
 	objstore "github.com/JackTJC/gmFS_backend/dal/obj_store"
 	"github.com/JackTJC/gmFS_backend/logs"
@@ -15,6 +16,7 @@ import (
 
 type UploadFileHandler struct {
 	ctx context.Context
+	uid uint64
 	Req *pb_gen.UploadFileRequest
 }
 
@@ -34,13 +36,17 @@ func (h *UploadFileHandler) Run() (resp *pb_gen.UploadFileReponse) {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
+	// 生成节点id
 	nodeID := uint64(util.GenId())
+	// 对象存储保存文件
 	if err := objstore.UploadFile(h.ctx, GenCosFileKey(int64(nodeID)), h.Req.Content); err != nil {
 		logs.Sugar.Errorf("upload file cos upload error:%v", err)
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
+	// 开启事务
 	err := db.Transaction(h.ctx, func(ctx context.Context) error {
+		// 创建文件夹到文件的索引关系
 		nodeRel := &model.NodeRel{
 			ParentID: uint64(h.Req.GetParentId()),
 			ChildID:  nodeID,
@@ -50,14 +56,41 @@ func (h *UploadFileHandler) Run() (resp *pb_gen.UploadFileReponse) {
 			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 			return err
 		}
+		// db中创建该文件节点
 		node := &model.Node{
 			NodeID:   nodeID,
 			NodeType: uint(pb_gen.NodeType_File),
 			Name:     h.Req.GetFileName(),
-			// Content:  string(h.Req.GetContent()),
 		}
 		if err := db.Node.Create(ctx, node); err != nil {
 			logs.Sugar.Errorf("Create Node error:%v", err)
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+			return err
+		}
+		// 创建密钥记录
+		sk := &model.SecretKey{
+			UserID: h.uid,
+			FileID: nodeID,
+			Key:    string(h.Req.GetSecretKey()),
+		}
+		if err := db.SecretKey.Create(ctx, sk); err != nil {
+			logs.Sugar.Errorf("Create SK error:%v", err)
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+			return err
+		}
+		if len(h.Req.GetIndexList()) == 0 { // 没有索引，直接返回
+			return nil
+		}
+		// 创建索引
+		indexs := make([]*model.SearchIndex, 0, len(h.Req.GetIndexList()))
+		for _, keyword := range h.Req.GetIndexList() {
+			indexs = append(indexs, &model.SearchIndex{
+				FileID:  nodeID,
+				Keyword: keyword,
+			})
+		}
+		if err := db.SearchIndex.MCreate(h.ctx, indexs); err != nil {
+			logs.Sugar.Errorf("m create search index error:%v", err)
 			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 			return err
 		}
@@ -80,6 +113,11 @@ func (h *UploadFileHandler) checkParams() error {
 	if len(h.Req.GetContent()) == 0 {
 		return errors.New("empty file content")
 	}
+	uid, err := cache.Token.GetUID(h.Req.GetBaseReq().GetToken())
+	if err != nil {
+		return err
+	}
+	h.uid = uid
 	return nil
 }
 

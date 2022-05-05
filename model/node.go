@@ -11,8 +11,6 @@ type Node struct {
 	NodeID     uint64    `gorm:"column:node_id;NOT NULL"`                               // 节点id,分享文件使用,64bit
 	NodeType   uint      `gorm:"column:node_type;NOT NULL"`                             // 节点类型
 	Name       string    `gorm:"column:name;NOT NULL"`                                  // 文件名称
-	Content    string    `gorm:"column:content;NOT NULL"`                               // 文件内容,最大64k
-	CosKey     string    `gorm:"column:cos_key;NOT NULL"`                               // 文件在cos中的key
 	CreateTime time.Time `gorm:"column:create_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 创建时间
 	UpdateTime time.Time `gorm:"column:update_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 更新时间
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/JackTJC/gmFS_backend/dal/cache"
 	"github.com/JackTJC/gmFS_backend/dal/db"
 	objstore "github.com/JackTJC/gmFS_backend/dal/obj_store"
 	"github.com/JackTJC/gmFS_backend/logs"
@@ -13,6 +14,7 @@ import (
 
 type GetNodeHandler struct {
 	ctx context.Context
+	uid uint64
 	Req *pb_gen.GetNodeRequest
 }
 
@@ -33,13 +35,13 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 		return
 	}
 	// 获取当前节点
-	nodeMap, err := db.Node.MGetByNodeId(h.ctx, []int64{h.Req.GetNodeId()})
+	nodeMap, err := db.Node.MGetByNodeId(h.ctx, []uint64{uint64(h.Req.GetNodeId())})
 	if err != nil {
 		logs.Sugar.Errorf("MGetByNodeId error:%v", err)
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
-	node, ok := nodeMap[h.Req.GetNodeId()]
+	node, ok := nodeMap[uint64(h.Req.GetNodeId())]
 	if !ok {
 		logs.Sugar.Warnf("node id:%v not exist", h.Req.GetNodeId())
 		return
@@ -53,7 +55,7 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 		UpdateTime: node.UpdateTime.Unix(),
 	}
 	if node.NodeType == uint(pb_gen.NodeType_File) {
-		// 填充内容
+		// 对象存储下载内容
 		content, err := objstore.DownloadFile(h.ctx, GenCosFileKey(int64(node.NodeID)))
 		if err != nil {
 			logs.Sugar.Errorf("get node cos download error:%c", err)
@@ -61,6 +63,14 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 			return
 		}
 		resp.Node.NodeContent = content
+		// 密钥库获取密钥
+		sk, err := db.SecretKey.GetByUIDAndNodeID(h.ctx, h.uid, node.NodeID)
+		if err != nil {
+			logs.Sugar.Errorf("get sk by uid and node error:%v", err)
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+			return
+		}
+		resp.Node.SecretKey = []byte(sk.Key)
 		return
 	}
 	// 获取子节点
@@ -70,9 +80,9 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}
-	subNodeIDs := make([]int64, 0, len(subNodeList))
+	subNodeIDs := make([]uint64, 0, len(subNodeList))
 	for _, nodeRel := range subNodeList {
-		subNodeIDs = append(subNodeIDs, int64(nodeRel.ChildID))
+		subNodeIDs = append(subNodeIDs, nodeRel.ChildID)
 	}
 	nodeMap, err = db.Node.MGetByNodeId(h.ctx, subNodeIDs)
 	if err != nil {
@@ -100,5 +110,10 @@ func (h *GetNodeHandler) checkParams() error {
 	if h.Req.GetNodeId() <= 0 {
 		return errors.New("illegal node id")
 	}
+	uid, err := cache.Token.GetUID(h.Req.GetBaseReq().GetToken())
+	if err != nil {
+		return err
+	}
+	h.uid = uid
 	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/JackTJC/gmFS_backend/dal/cache"
 	"github.com/JackTJC/gmFS_backend/dal/db"
 	"github.com/JackTJC/gmFS_backend/logs"
 	"github.com/JackTJC/gmFS_backend/pb_gen"
@@ -51,7 +52,12 @@ func (h *UserLoginHandler) Run() (resp *pb_gen.UserLoginResponse) {
 		UserName: user.UserName,
 		Email:    user.Email,
 	}
-	token := util.GenUUID() // 暂时这样
+	token := util.GenUUID()
+	if err := cache.Token.SetToken(token, user.UserID); err != nil {
+		logs.Sugar.Errorf("set token error:%v", err)
+		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+		return
+	}
 	resp.Token = token
 	return
 }

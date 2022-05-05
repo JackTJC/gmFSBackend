@@ -7,9 +7,8 @@ import (
 
 // 搜索索引表
 type SearchIndex struct {
-	IndexID    uint64    `gorm:"column:index_id;AUTO_INCREMENT;NOT NULL"`               // 索引id
-	UserID     uint64    `gorm:"column:user_id;NOT NULL"`                               // user id
-	Keyword    string    `gorm:"column:keyword;NOT NULL"`                               // 关键词
+	ID         uint64    `gorm:"column:id;primary_key;AUTO_INCREMENT"`                  // 索引id
+	Keyword    string    `gorm:"column:keyword;NOT NULL"`                               // 关键词,加密后的
 	FileID     uint64    `gorm:"column:file_id;NOT NULL"`                               // 文件id
 	CreateTime time.Time `gorm:"column:create_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 创建时间
 	UpdateTime time.Time `gorm:"column:update_time;default:CURRENT_TIMESTAMP;NOT NULL"` // 更新时间
