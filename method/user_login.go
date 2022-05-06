@@ -24,6 +24,9 @@ func NewUserLoginHandler(ctx context.Context, req *pb_gen.UserLoginRequest) *Use
 }
 
 func (h *UserLoginHandler) Run() (resp *pb_gen.UserLoginResponse) {
+	defer func() {
+		logs.Sugar.Infof("req = %+v, resp = %+v", h.Req, resp)
+	}()
 	resp = &pb_gen.UserLoginResponse{
 		BaseResp: util.BuildBaseResp(pb_gen.StatusCode_Success),
 	}

@@ -28,6 +28,9 @@ func NewUploadFileHandler(ctx context.Context, req *pb_gen.UploadFileRequest) *U
 }
 
 func (h *UploadFileHandler) Run() (resp *pb_gen.UploadFileReponse) {
+	defer func() {
+		logs.Sugar.Infof("req = %+v, resp = %+v", h.Req, resp)
+	}()
 	resp = &pb_gen.UploadFileReponse{
 		BaseResp: util.BuildBaseResp(pb_gen.StatusCode_Success),
 	}

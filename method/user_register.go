@@ -24,6 +24,9 @@ func NewUserRegisterHandler(ctx context.Context, req *pb_gen.UserRegisterRequest
 }
 
 func (h *UserRegisterHandler) Run() (resp *pb_gen.UserRegisterResponse) {
+	defer func() {
+		logs.Sugar.Infof("req = %+v, resp = %+v", h.Req, resp)
+	}()
 	resp = &pb_gen.UserRegisterResponse{
 		BaseResp: util.BuildBaseResp(pb_gen.StatusCode_Success),
 	}

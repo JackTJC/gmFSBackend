@@ -3,7 +3,6 @@ package http_server
 import (
 	"net/http"
 
-	"github.com/JackTJC/gmFS_backend/logs"
 	"github.com/JackTJC/gmFS_backend/method"
 	"github.com/JackTJC/gmFS_backend/pb_gen"
 	"github.com/JackTJC/gmFS_backend/util"
@@ -37,7 +36,6 @@ func ping(c *gin.Context) {
 	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
-	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
 	c.Status(http.StatusOK)
 }
 
@@ -55,7 +53,6 @@ func userLogin(c *gin.Context) {
 	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
-	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
 	c.Status(http.StatusOK)
 }
 func userRegister(c *gin.Context) {
@@ -72,7 +69,6 @@ func userRegister(c *gin.Context) {
 	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
-	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
 	c.Status(http.StatusOK)
 }
 func createDir(c *gin.Context) {
@@ -89,7 +85,6 @@ func createDir(c *gin.Context) {
 	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
-	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
 	c.Status(http.StatusOK)
 }
 
@@ -107,7 +102,6 @@ func uploadFile(c *gin.Context) {
 	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
-	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
 	c.Status(http.StatusOK)
 }
 
@@ -125,7 +119,6 @@ func searchFile(c *gin.Context) {
 	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
-	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
 	c.Status(http.StatusOK)
 }
 func getNode(c *gin.Context) {
@@ -142,7 +135,6 @@ func getNode(c *gin.Context) {
 	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
-	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
 	c.Status(http.StatusOK)
 }
 
@@ -160,6 +152,5 @@ func registerFile(c *gin.Context) {
 	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
-	logs.Sugar.Infof("req = %+v, resp = %+v", req, resp)
 	c.Status(http.StatusOK)
 }

@@ -26,6 +26,9 @@ func NewGetNodeHandler(ctx context.Context, req *pb_gen.GetNodeRequest) *GetNode
 }
 
 func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
+	defer func() {
+		logs.Sugar.Infof("req = %+v, resp = %+v", h.Req, resp)
+	}()
 	resp = &pb_gen.GetNodeResponse{
 		BaseResp: util.BuildBaseResp(pb_gen.StatusCode_Success),
 	}
@@ -101,7 +104,6 @@ func (h *GetNodeHandler) Run() (resp *pb_gen.GetNodeResponse) {
 			UpdateTime: node.UpdateTime.Unix(),
 		})
 	}
-	resp.SubNodes = pbSubNodes
 	resp.Node.SubNodeList = pbSubNodes
 	return
 }

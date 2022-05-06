@@ -42,7 +42,8 @@ CREATE TABLE `secret_key`(
     `key` BLOB NOT NULL COMMENT '解密密钥,已加密',
     `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY(`id`)
+    PRIMARY KEY(`id`),
+    UNIQUE KEY `uniq_uid_fid` (`user_id`,`file_id`)   
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '解密密钥表';
 
 -- 加密索引

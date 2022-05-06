@@ -26,6 +26,9 @@ func NewRegisterFileHandler(ctx context.Context, req *pb_gen.RegisterFileRequest
 }
 
 func (h *RegisterFileHandler) Run() (resp *pb_gen.RegisterFileResponse) {
+	defer func() {
+		logs.Sugar.Infof("req = %+v, resp = %+v", h.Req, resp)
+	}()
 	resp = &pb_gen.RegisterFileResponse{}
 	if err := h.checkParams(); err != nil {
 		logs.Sugar.Errorf("register file check param error:%v", err)
