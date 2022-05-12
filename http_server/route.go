@@ -19,6 +19,8 @@ func setRoute(r *gin.Engine) {
 	r.POST("/file/search", searchFile)
 	r.POST("/node/get", getNode)
 	r.POST("/file/register", registerFile)
+	r.POST("/file/share", shareFile)
+
 }
 
 // template
@@ -146,6 +148,40 @@ func registerFile(c *gin.Context) {
 	}
 	resp := method.NewRegisterFileHandler(c.Request.Context(), req).Run()
 	if err := writeBody(c, resp); err != nil {
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
+		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
+	}
+	c.Status(http.StatusOK)
+}
+
+func shareFile(c *gin.Context) {
+	req := &pb_gen.ShareFileRequest{}
+	if err := readBody(c, req); err != nil {
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+	resp := method.NewShareFileHandler(c.Request.Context(), req).Run()
+	if err := writeBody(c, resp); err != nil {
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
+		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
+	}
+	c.Status(http.StatusOK)
+}
+
+func getRecvFile(c *gin.Context) {
+	req := &pb_gen.GetRecvFileRequest{}
+	if err := readBody(c, req); err != nil { // 从http request body解析初请求
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+	resp := method.NewGetRecvFileHandler(c.Request.Context(), req).Run() // 业务逻辑
+	if err := writeBody(c, resp); err != nil {                           // 响应写回http response
 		c.Status(http.StatusInternalServerError)
 		return
 	}

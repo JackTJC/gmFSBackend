@@ -15,10 +15,10 @@ func Main(isHTTPS bool) {
 	r.Use(contentTypeAfterHandler())
 	setRoute(r)
 	if isHTTPS {
-		r.Use(tlsHandler(9000))
-		r.RunTLS(":9000", "./config/cert/domain.pem", "./config/cert/domain.key")
+		r.Use(tlsHandler(8888))
+		r.RunTLS(":8888", "./config/cert/domain.pem", "./config/cert/domain.key")
 	} else {
-		r.Run(":9000")
+		r.Run(":8888")
 	}
 }
 

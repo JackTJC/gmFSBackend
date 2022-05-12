@@ -58,7 +58,19 @@ CREATE TABLE `search_index`(
     INDEX `idx_kw`(`keyword`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '搜索索引表';
 
-
+-- 加密索引
+CREATE TABLE `share_file`(
+    `id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL COMMENT '主键id',
+    `from` BIGINT UNSIGNED NOT NULL COMMENT '',
+    `to` BIGINT UNSIGNED NOT NULL COMMENT '',
+    `file_id` BIGINT UNSIGNED NOT NULL COMMENT '文件id',
+    `key` BLOB NOT NULL COMMENT '解密秘钥',
+    `status` TINYINT NOT NULL COMMENT '分享是否被处理,1:未处理,2:已处理',
+    `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY(`id`),
+    INDEX `idx_to`(`to`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '分享文件表';
 
 
 -- for linzefu

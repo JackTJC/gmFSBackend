@@ -2,9 +2,15 @@ package db
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/JackTJC/gmFS_backend/model"
+	"github.com/go-sql-driver/mysql"
+)
+
+var (
+	ErrFileEixst = errors.New("user already have this file")
 )
 
 var SecretKey *secretKeyDB
@@ -16,7 +22,14 @@ func (d *secretKeyDB) Create(ctx context.Context, sk *model.SecretKey) error {
 	sk.CreateTime = time.Now()
 	sk.UpdateTime = time.Now()
 	conn := getDbConn(ctx)
-	return conn.Model(sk).Create(sk).Error
+	if err := conn.Model(sk).Create(sk).Error; err != nil {
+		var mysqlErr *mysql.MySQLError
+		if errors.As(err, &mysqlErr) && mysqlErr.Number == 1062 {
+			return ErrFileEixst
+		}
+		return err
+	}
+	return nil
 }
 
 func (d *secretKeyDB) GetByUIDAndNodeID(ctx context.Context, uid, fileID uint64) (*model.SecretKey, error) {

@@ -49,3 +49,16 @@ func (d *userDB) GetByName(ctx context.Context, name string) (*model.UserInfo, e
 	}
 	return ret[0], nil
 }
+
+func (d *userDB) MGetByID(ctx context.Context, uids []uint64) (map[uint64]*model.UserInfo, error) {
+	conn := getDbConn(ctx)
+	var userList []*model.UserInfo
+	if err := conn.Model(&model.UserInfo{}).Where("user_id IN (?)", uids).Find(&userList).Error; err != nil {
+		return nil, err
+	}
+	ret := make(map[uint64]*model.UserInfo)
+	for _, user := range userList {
+		ret[user.UserID] = user
+	}
+	return ret, nil
+}

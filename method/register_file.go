@@ -42,6 +42,11 @@ func (h *RegisterFileHandler) Run() (resp *pb_gen.RegisterFileResponse) {
 			ChildID:  uint64(h.Req.GetFileId()),
 		}
 		if err := db.NodeRel.Create(h.ctx, relation); err != nil {
+			if err == db.ErrSubExist {
+				logs.Sugar.Errorf("file already in this directory")
+				resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_SubExist)
+				return err
+			}
 			logs.Sugar.Errorf("register file save db error:%v", err)
 			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 			return err
@@ -53,7 +58,20 @@ func (h *RegisterFileHandler) Run() (resp *pb_gen.RegisterFileResponse) {
 			Key:    string(h.Req.GetSecretKey()),
 		}
 		if err := db.SecretKey.Create(ctx, sk); err != nil {
+			if err == db.ErrFileEixst {
+				logs.Sugar.Errorf("file already in this user's disk")
+				resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_FileExist)
+				return err
+			}
 			logs.Sugar.Errorf("register file save key error:%v", err)
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
+			return err
+		}
+		if !h.Req.GetIsWeb() {
+			return nil
+		}
+		if err := db.ShareFile.LazyDel(ctx, h.Req.GetShareId()); err != nil {
+			logs.Sugar.Errorf("update share file status error:%v", err)
 			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 			return err
 		}
@@ -66,7 +84,6 @@ func (h *RegisterFileHandler) Run() (resp *pb_gen.RegisterFileResponse) {
 		}
 		return
 	}
-
 	return
 }
 
@@ -82,5 +99,8 @@ func (h *RegisterFileHandler) checkParams() error {
 		return err
 	}
 	h.uid = uid
+	if h.Req.GetIsWeb() && h.Req.GetShareId() < 0 {
+		return errors.New("illegal web request")
+	}
 	return nil
 }
