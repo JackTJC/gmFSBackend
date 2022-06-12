@@ -5,7 +5,6 @@ import (
 
 	"github.com/JackTJC/gmFS_backend/method"
 	"github.com/JackTJC/gmFS_backend/pb_gen"
-	"github.com/JackTJC/gmFS_backend/util"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,7 +19,7 @@ func setRoute(r *gin.Engine) {
 	r.POST("/node/get", getNode)
 	r.POST("/file/register", registerFile)
 	r.POST("/file/share", shareFile)
-
+	r.POST("/file/recv/get", getRecvFile)
 }
 
 // template
@@ -34,9 +33,6 @@ func ping(c *gin.Context) {
 	if err := writeBody(c, resp); err != nil {                    // 响应写回http response
 		c.Status(http.StatusInternalServerError)
 		return
-	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
 	c.Status(http.StatusOK)
 }
@@ -52,9 +48,6 @@ func userLogin(c *gin.Context) {
 		c.Status(http.StatusInternalServerError)
 		return
 	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
-	}
 	c.Status(http.StatusOK)
 }
 func userRegister(c *gin.Context) {
@@ -68,9 +61,6 @@ func userRegister(c *gin.Context) {
 		c.Status(http.StatusInternalServerError)
 		return
 	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
-	}
 	c.Status(http.StatusOK)
 }
 func createDir(c *gin.Context) {
@@ -83,9 +73,6 @@ func createDir(c *gin.Context) {
 	if err := writeBody(c, resp); err != nil {
 		c.Status(http.StatusInternalServerError)
 		return
-	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
 	c.Status(http.StatusOK)
 }
@@ -101,9 +88,6 @@ func uploadFile(c *gin.Context) {
 		c.Status(http.StatusInternalServerError)
 		return
 	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
-	}
 	c.Status(http.StatusOK)
 }
 
@@ -118,9 +102,6 @@ func searchFile(c *gin.Context) {
 		c.Status(http.StatusInternalServerError)
 		return
 	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
-	}
 	c.Status(http.StatusOK)
 }
 func getNode(c *gin.Context) {
@@ -133,9 +114,6 @@ func getNode(c *gin.Context) {
 	if err := writeBody(c, resp); err != nil {
 		c.Status(http.StatusInternalServerError)
 		return
-	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
 	c.Status(http.StatusOK)
 }
@@ -151,9 +129,6 @@ func registerFile(c *gin.Context) {
 		c.Status(http.StatusInternalServerError)
 		return
 	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
-	}
 	c.Status(http.StatusOK)
 }
 
@@ -168,9 +143,6 @@ func shareFile(c *gin.Context) {
 		c.Status(http.StatusInternalServerError)
 		return
 	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
-	}
 	c.Status(http.StatusOK)
 }
 
@@ -184,9 +156,6 @@ func getRecvFile(c *gin.Context) {
 	if err := writeBody(c, resp); err != nil {                           // 响应写回http response
 		c.Status(http.StatusInternalServerError)
 		return
-	}
-	if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
-		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
 	}
 	c.Status(http.StatusOK)
 }

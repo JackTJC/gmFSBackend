@@ -58,7 +58,6 @@ CREATE TABLE `search_index`(
     INDEX `idx_kw`(`keyword`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '搜索索引表';
 
--- 加密索引
 CREATE TABLE `share_file`(
     `id` BIGINT UNSIGNED AUTO_INCREMENT NOT NULL COMMENT '主键id',
     `from` BIGINT UNSIGNED NOT NULL COMMENT '',

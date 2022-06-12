@@ -25,6 +25,9 @@ func NewCreateDirHandler(ctx context.Context, req *pb_gen.CreateDirRequest) *Cre
 
 func (h *CreateDirHandler) Run() (resp *pb_gen.CreateDirResponse) {
 	defer func() {
+		if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
+		}
 		logs.Sugar.Infof("req = %+v, resp = %+v", h.Req, resp)
 	}()
 	resp = &pb_gen.CreateDirResponse{

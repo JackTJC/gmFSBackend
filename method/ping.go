@@ -23,6 +23,9 @@ func NewPingHandler(ctx context.Context, req *pb_gen.PingRequest) *PingHandler {
 
 func (h *PingHandler) Run() (resp *pb_gen.PingResponse) {
 	defer func() {
+		if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
+		}
 		logs.Sugar.Infof("req = %+v, resp = %+v", h.Req, resp)
 	}()
 	resp = &pb_gen.PingResponse{

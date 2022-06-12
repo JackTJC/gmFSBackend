@@ -25,6 +25,9 @@ func NewGetRecvFileHandler(ctx context.Context, req *pb_gen.GetRecvFileRequest) 
 
 func (h *GetRecvFileHandler) Run() (resp *pb_gen.GetRecvFileResponse) {
 	defer func() {
+		if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
+		}
 		logs.Sugar.Infof("req = %+v, resp = %+v", h.Req, resp)
 	}()
 	resp = &pb_gen.GetRecvFileResponse{}
@@ -36,7 +39,12 @@ func (h *GetRecvFileHandler) Run() (resp *pb_gen.GetRecvFileResponse) {
 	// 查询未处理的分享
 	shareFileList, err := db.ShareFile.GetByDstUID(h.ctx, h.uid)
 	if err != nil {
-		logs.Sugar.Errorf("get share file list, error")
+		if err == db.ErrEmptyShareFile {
+			logs.Sugar.Errorf("user:%v have no share file", h.uid)
+			resp.ShareFileList = []*pb_gen.SharedFile{}
+			return
+		}
+		logs.Sugar.Errorf("get share file list, error:%v", err)
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
 		return
 	}

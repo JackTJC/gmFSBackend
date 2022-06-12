@@ -26,13 +26,16 @@ func NewShareFileHandler(ctx context.Context, req *pb_gen.ShareFileRequest) *Sha
 }
 func (h *ShareFileHandler) Run() (resp *pb_gen.ShareFileResponse) {
 	defer func() {
+		if resp.GetBaseResp().GetStatusCode() == pb_gen.StatusCode_Success {
+			resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_Success)
+		}
 		logs.Sugar.Infof("req = %+v, resp = %+v", h.Req, resp)
 	}()
 	resp = &pb_gen.ShareFileResponse{}
 	if err := h.checkParams(); err != nil {
 		logs.Sugar.Errorf("check params error:%v", err)
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
-		return nil
+		return
 	}
 	user, err := db.User.GetByName(h.ctx, h.Req.GetUserName())
 	if err != nil {
@@ -43,7 +46,7 @@ func (h *ShareFileHandler) Run() (resp *pb_gen.ShareFileResponse) {
 		}
 		logs.Sugar.Errorf("get user by name error:%v", err)
 		resp.BaseResp = util.BuildBaseResp(pb_gen.StatusCode_CommonErr)
-		return nil
+		return
 	}
 	shareFile := &model.ShareFile{
 		FileID: uint64(h.Req.GetFileId()),
