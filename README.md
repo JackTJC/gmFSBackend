@@ -5,7 +5,6 @@
 
 ```bash
 gmFS_backend
-├── build.sh # 编译脚本
 ├── config  # 配置信息相关
 ├── dal  # Data Access Layer
 │   ├── cache # 缓存相关
